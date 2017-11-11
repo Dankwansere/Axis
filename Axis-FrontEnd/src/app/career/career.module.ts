@@ -6,8 +6,8 @@ import {RouterModule} from '@angular/router';
 import {CareerComponent} from './career.component'
 
 @NgModule({
-    imports: [],
-    declarations: [],
+    imports: [CommonModule, ReactiveFormsModule, RouterModule],
+    declarations: [CareerComponent],
     exports:[],
     providers: []
 })
