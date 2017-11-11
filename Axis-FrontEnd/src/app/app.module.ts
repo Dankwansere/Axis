@@ -3,16 +3,22 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import {CareerModule} from './career/career.module';
+import {PayrollModule} from './payroll/payroll.module';
+import {ProfileModule} from './profile/profile.module'
+
 import { AppComponent } from './app.component';
+import {HomeComponent} from './home.component'
+
+import {routing} from './app.routing'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, HomeComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
+    BrowserModule, FormsModule, HttpModule, CareerModule,
+    PayrollModule, ProfileModule, routing
   ],
   providers: [],
   bootstrap: [AppComponent]
