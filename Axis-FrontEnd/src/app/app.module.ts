@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import {CareerModule} from './career/career.module';
 import {PayrollModule} from './payroll/payroll.module';
 import {ProfileModule} from './profile/profile.module'
+import {LoginModule} from './login/login.module'
 
 import { AppComponent } from './app.component';
 import {HomeComponent} from './home.component'
@@ -18,7 +19,7 @@ import {routing} from './app.routing'
   ],
   imports: [
     BrowserModule, FormsModule, HttpModule, CareerModule,
-    PayrollModule, ProfileModule, routing
+    PayrollModule, ProfileModule, LoginModule, routing
   ],
   providers: [],
   bootstrap: [AppComponent]
