@@ -1,12 +1,19 @@
 <h3>Please Log in</h3>
-<form (ngSubmit)="login()">
-    <label for="username">Username</label>
-    <input name="username" type="text" [(ngModel)]="username">
-    <br>
-    <label for="password">Password</label>
-    <input name="password" type="password" [(ngModel)]="password">
-    <br>
+<div name="loginDiv">
+    <div name="loginForm" *ngIf="!isUserLoggedIn">
+        <form (ngSubmit)="login()">
+            <label for="username">Username</label>
+            <input name="username" type="text" [(ngModel)]="username">
+            <br>
+            <label for="password">Password</label>
+            <input name="password" type="password" [(ngModel)]="password">
+            <br>   
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </div>
 
-    
-    <button class="btn btn-primary" type="submit">Login</button>
-</form>
+    <div *ngIf="isUserLoggedIn">
+        <h2>You logged in successfully </h2>
+    </div>
+
+</div>
