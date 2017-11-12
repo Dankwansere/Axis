@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginService} from './login.service';
 
 @Component ({
@@ -10,13 +10,18 @@ export class LoginComponent{
 
     username;
     password;
+    isUserLoggedIn : boolean;
     constructor(private _loginService:LoginService){
-
+        
     }
 
-    public login(userName){
-        console.log("Username: " + this.username + " Password: " + this.password);
-        //this._loginService.Login
+    public login(){
+        this.isUserLoggedIn = this._loginService.Login(this.username, this.password);
+    
+    }
+
+    ngOnInit(){
+        this.isUserLoggedIn = this._loginService.isLoggedIn;
     }
 
 }
