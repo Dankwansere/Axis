@@ -4,12 +4,17 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 
 import {LoginComponent} from './login.component';
-import{LoginService} from './login.service'
+import {LoginService} from './login.service';
+import {LogRegComponent} from './logReg.component';
+import {RegisterComponent} from './register.component';
+
+import {ReactiveFormsModule} from '@angular/forms';
+
 
 
 @NgModule ({
-    declarations: [LoginComponent],
-    imports: [CommonModule, RouterModule, FormsModule],
+    declarations: [LoginComponent, LogRegComponent, RegisterComponent],
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
     exports:[],
     providers: [LoginService]
 })
