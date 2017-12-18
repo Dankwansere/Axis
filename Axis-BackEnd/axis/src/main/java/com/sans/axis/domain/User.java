@@ -92,6 +92,13 @@ public class User {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Username: " + this.getUserName() + " First name: " + this.getFirstName() +
+				"\nLast name: " + this.getLastName() + " Email address: " + this.getEmailAdd() +
+				"\nGender: " + this.getGender();
+	}
+	
 	
 	
 	
