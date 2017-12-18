@@ -3,7 +3,7 @@
     <div name="loginForm" *ngIf="!isUserLoggedIn" >
         <form (ngSubmit)="login()" [formGroup]="loginForm">
             <label for="username">Username</label>
-            <input name="username" type="text" formControlName="userName">
+             <input name="username" type="text" formControlName="userName">
             <br>
             <label for="password">Password</label>
             <input name="password" type="password" formControlName="passWord">
@@ -15,5 +15,4 @@
     <div *ngIf="isUserLoggedIn">
         <h2>You logged in successfully </h2>
     </div>
-
 </div>
