@@ -21,27 +21,58 @@ public class UserController {
 	
 	@Autowired
 	private IUserService userService;
-	private String isUserValid = "isUserValid : true";
+	private String isSuccess = "isSuccess : true";
+	private User user;
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String getUser(@RequestBody User user) {
-		System.out.println("User name: " + user.getUserName());
+	public String getUser(@RequestBody User _user) {
 		
-		return isUserValid;
+		System.out.println("User name: " + _user.getUserName());
+		
+		this.user = userService.getUser(_user.getUserName(), _user.getPassWord());
+		
+		if(this.user == null) {
+			return "false";
+		}
+		
+		if(this.user != null || ( this.user.getUserName().equals(_user.getUserName())  &&
+				this.user.getPassWord().equals(_user.getPassWord()))) {
+			return "true";
+		}
+		else {
+			return "false";
+		}	
+	}
+	
+	@RequestMapping(value = "/validate/{username}", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public String validateUserName(@PathVariable(value = "username") String username) {
+		
+		System.out.println("Received username: " + username);
+		
+		boolean isUserExist = userService.validateUserName(username);
+		
+		if(isUserExist) {
+			return "true";
+		}
+		else {
+			return "false";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void create(@RequestBody User user) {
-		System.out.println("User name: " + user.getUserName());
-		System.out.println("First name: " + user.getFirstName());
-		System.out.println("Last name: " + user.getLastName());
-		System.out.println("Email Add: " + user.getEmailAdd());
-		System.out.println("Password: " + user.getPassWord());
-		System.out.println("Gender: " + user.getGender());
+	public String create(@RequestBody User user) {	
+		boolean isUserSaved = userService.createUser(user);
 		
-		userService.createUser(user);
+		if(isUserSaved) {
+			return isSuccess;
+		}
+		else {
+			return isSuccess = "isSuccess : false";
+		}
 		
 	}
 	
