@@ -17,7 +17,7 @@ export class LoginService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.post("http://localhost:7070/axis/user/login", user, options)
+        return this._http.post("http://localhost:7070/axis/user/login", user, options);
 
     }
 
@@ -25,6 +25,10 @@ export class LoginService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this._http.post("http://localhost:7070/axis/user/create", userRegistrationForm, options)
+        return this._http.post("http://localhost:7070/axis/user/create", userRegistrationForm, options);
+    }
+
+    public validateUserNameGetRequest(username:string){
+        return this._http.get("http://localhost:7070/axis/user/validate/" + username);
     }
 }
