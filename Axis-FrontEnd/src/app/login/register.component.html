@@ -1,7 +1,7 @@
 <form [formGroup]="userForm" (ngSubmit)="register()">
     
         <div class="form-group">
-          <label for="username">User name</label>
+          <label for="username">User name</label> <img src="{{imageUrl}}" *ngIf="displayIcon"  />
           <input type="text" class="form-control" formControlName="userName" id="username" aria-describedby="usernameHelp" placeholder="Enter username">
           
         </div>
