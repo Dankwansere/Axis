@@ -7,13 +7,17 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component ({
     selector : 'register',
-    templateUrl : 'register.component.html'
+    templateUrl : 'register.component.html',
+    styleUrls: ['logReg.component.css']
 })
 
 export class RegisterComponent {
 
-    isUsernameValid: boolean;
-    displayIcon: boolean;
+
+    private isUsernameValid: boolean;
+    private displayIcon: boolean;
+    private isLoading:boolean = false;
+    private isUserCreated:boolean = false;
 
     private checkMarkIconPath:string = "./app/assets/icons/checkmark.png";
     private xMarkIconPath:string = "./app/assets/icons/xmark.png";
@@ -37,12 +41,28 @@ export class RegisterComponent {
 
     public register() {
 
+        this.isLoading = true;
         console.log(this.userForm.value);
        
         let userFormJson = JSON.stringify(this.userForm.value);
 
-        this.loginService.registerPostRequest(userFormJson).subscribe(data => console.log(data));
+        this.loginService.registerPostRequest(userFormJson)
+        .subscribe(data => {
+            this.isLoading = false;
+            console.log(data)
+            this.confirmUserCreation(data);
+        });
+    }
 
+    private confirmUserCreation(data){
+        let registerResponse = data._body;
+
+        if(registerResponse == "success"){
+            this.isUserCreated = true;
+        }
+        else {
+            this.isUserCreated = false;
+        }
     }
 
     private validateUsername(value){
@@ -65,15 +85,18 @@ export class RegisterComponent {
 
     ngOnInit(){
 
+        this.isUserCreated = false;
         this.userForm.controls["userName"].valueChanges.filter(text => this.resetUsernameIcon(text)).subscribe();
 
+      
         this.userForm.controls["userName"].valueChanges
-        .filter(text => text.length >= 4)
-        .debounceTime(400)
-        .distinctUntilChanged()
-        .subscribe(data => this.loginService
-            .validateUserNameGetRequest(this.userForm.controls["userName"].value)
-            .subscribe(value => this.validateUsername(value)));
+            .filter(text => text.length >= 4)
+            .debounceTime(400)
+            .distinctUntilChanged()
+            .subscribe(data => {
+                this.loginService.validateUserNameGetRequest(this.userForm.controls["userName"].value)
+                    .subscribe(value => {
+                        this.validateUsername(value)})});
     }
     
 }
