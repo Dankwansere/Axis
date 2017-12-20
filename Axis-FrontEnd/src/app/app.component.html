@@ -12,41 +12,41 @@
       </button>
     
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" routerLink=''
-            data-toggle="tooltip" data-placement="bottom" title="Home page" >Home <span class="sr-only ">(current)</span></a>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab"  routerLink='' data-placement="bottom" title="Home page" >Home <span class="sr-only ">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="payroll"
-            data-toggle="tooltip" data-placement="bottom" title="Go to Payroll">PayRoll</a>
+            <a class="nav-link" data-toggle="tab" routerLink="payroll" data-placement="bottom" title="Go to Payroll">PayRoll</a>
           </li>
     
           <li class="nav-item">
-            <a class="nav-link" routerLink="profile">Profile</a>
+            <a class="nav-link" data-toggle="tab" routerLink="profile">Profile</a>
           </li>
     
           <li class="nav-item">
-            <a class="nav-link" routerLink="career">Career</a>
+            <a class="nav-link" data-toggle="tab" routerLink="career">Career</a>
           </li>
     
+          <!--
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#">Disabled</a>
+          </li> -->
+
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" role="button" routerLink="logReg">Login | Sign Up</a>
+          </li>
+
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" data-toggle="tab" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" (click)="logout()" routerLink="logReg">logout</a>
               <a class="dropdown-item" href="#">Another action</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" routerLink="logReg">Login | Sign Up</a>
           </li>
 
         </ul>
@@ -58,6 +58,8 @@
     </nav>
 
   </div>
+
+
   
   <nav class="navbar navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
