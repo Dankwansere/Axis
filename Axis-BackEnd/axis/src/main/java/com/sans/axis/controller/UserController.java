@@ -1,5 +1,7 @@
 package com.sans.axis.controller;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +23,6 @@ public class UserController {
 	
 	@Autowired
 	private IUserService userService;
-	private String isSuccess = "isSuccess : true";
 	private User user;
 	
 	
@@ -35,14 +36,10 @@ public class UserController {
 		if(this.user == null) {
 			return "false";
 		}
-		
-		if(this.user != null || ( this.user.getUserName().equals(_user.getUserName())  &&
-				this.user.getPassWord().equals(_user.getPassWord()))) {
+		else {
 			return "true";
 		}
-		else {
-			return "false";
-		}	
+		
 	}
 	
 	@RequestMapping(value = "/validate/{username}", method = RequestMethod.GET)
@@ -68,10 +65,10 @@ public class UserController {
 		boolean isUserSaved = userService.createUser(user);
 		
 		if(isUserSaved) {
-			return isSuccess;
+			return "success";
 		}
 		else {
-			return isSuccess = "isSuccess : false";
+			return "failed";
 		}
 		
 	}
