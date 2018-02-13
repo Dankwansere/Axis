@@ -4,7 +4,7 @@ import {PayrollComponent} from './payroll/payroll.component';
 import {CareerComponent} from './career/career.component';
 import {ProfileComponent} from './profile/profile.component';
 import {LoginComponent} from './login/login.component';
-import {HomeComponent} from './home.component';
+import {HomeComponent} from './home/home.component';
 import {LogRegComponent} from './login/logReg.component';
 import {RegisterComponent} from './login/register.component';
 
@@ -22,8 +22,5 @@ export const routing = RouterModule.forRoot([
         {path: 'signup', component: RegisterComponent}
 
     ]
-
-
 }
-
-])
+]);
