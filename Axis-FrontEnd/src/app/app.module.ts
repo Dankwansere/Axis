@@ -5,15 +5,15 @@ import { HttpModule } from '@angular/http';
 
 import {CareerModule} from './career/career.module';
 import {PayrollModule} from './payroll/payroll.module';
-import {ProfileModule} from './profile/profile.module'
-import {LoginModule} from './login/login.module'
+import {ProfileModule} from './profile/profile.module';
+import {LoginModule} from './login/login.module';
 
 import { AppComponent } from './app.component';
-import {HomeComponent} from './home.component'
+import {HomeComponent} from './home/home.component';
 
-import {routing} from './app.routing'
+import {routing} from './app.routing';
 import {LoginService} from './login/login.service';
-import {AuthGuard} from './auth-guard.service'
+import {AuthGuard} from './auth-guard.service';
 
 
 @NgModule({
