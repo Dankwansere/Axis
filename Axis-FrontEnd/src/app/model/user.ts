@@ -1,78 +1,77 @@
 export class User {
-    private id: number;
-    private userName: string;
-    private firstName: string;
-    private lastName: string;
-    private email: string;
-    private passWord: string;
-    private gender: string;
+    private _id: number;
+    private _userName: string;
+    private _firstName: string;
+    private _lastName: string;
+    private _emailAddress: string;
+    private _passWord: string;
+    private _gender: string;
     private _isLoggedIn: boolean = false;
 
-    constructor(id: number, userName: string, firstName: string, lastName: string,
-         email: string, password: string, gender: string ) {
-            this.id = id;
-            this.userName = userName;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.passWord = password;
-            this.gender = gender;
+    constructor(userName: string = null, firstName: string = null, lastName: string = null,
+         email: string = null, password: string = null, gender: string  = null) {
+            this._userName = userName;
+            this._firstName = firstName;
+            this._lastName = lastName;
+            this._emailAddress = email;
+            this._passWord = password;
+            this._gender = gender;
 
          }
 
-    public setUserName(userName: string) {
-        this.userName = userName;
+    set userName(userName: string) {
+        this._userName = userName;
     }
 
-    public getUserName(): string {
-        return this.userName;
+    get userName(): string {
+        return this._userName;
     }
 
-    public setFirstName(firstName: string) {
-        this.firstName = firstName;
+    set firstName(firstName: string) {
+        this._firstName = firstName;
     }
 
-    public getFirstName(): string {
-        return this.firstName;
+    get firstName(): string {
+        return this._firstName;
     }
 
-    public setLastName(lastName: string) {
-        this.lastName = lastName;
+    set lastName(lastName: string) {
+        this._lastName = lastName;
     }
 
-    public getLastName(): string {
-        return this.lastName;
+    get lastName(): string {
+        return this._lastName;
     }
 
-    public setEmail(email: string) {
-        this.email = email;
+    set emailAddress(email: string) {
+        this._emailAddress = email;
     }
 
-    public getEmail(): string {
-        return this.email;
+    get emailAddress(): string {
+        return this._emailAddress;
     }
 
-    public setPassWord(password: string) {
-        this.passWord = password;
+    set passWord(password: string) {
+        this._passWord = password;
     }
 
-    public getPassWord(): string {
-        return this.passWord;
+    get passWord(): string {
+        return this._passWord;
     }
 
-    public setGender(gender: string) {
-        this.gender = gender;
+    set gender(gender: string) {
+        this._gender = gender;
     }
 
-    public getGender(): string {
-        return this.gender;
+    get gender(): string {
+        return this._gender;
     }
 
-    public setLoggedIn(loggedIn: boolean) {
-        this._isLoggedIn = loggedIn;
+    set isLoggedIn(_loggedIn: boolean) {
+        this._isLoggedIn = _loggedIn;
     }
 
-    public isLoggedIn(): boolean {
+    get isLoggedIn(): boolean {
         return this._isLoggedIn;
     }
 }
