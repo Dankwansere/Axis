@@ -28,16 +28,16 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity getUser(@RequestBody User _user) {
+	public ResponseEntity<User> getUser(@RequestBody User _user) {
 		
 		System.out.println("User name: " + _user.getUserName());
 		
 		this.user = userService.getUser(_user.getUserName(), _user.getPassWord());
 		if(this.user == null) {
-			return new ResponseEntity(new User(), HttpStatus.OK);
+			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
 		
-		return new ResponseEntity(this.user, HttpStatus.OK);
+		return new ResponseEntity<User>(this.user, HttpStatus.OK);
 		
 	}
 	
