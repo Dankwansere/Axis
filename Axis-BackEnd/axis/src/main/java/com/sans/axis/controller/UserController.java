@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,18 +28,16 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String getUser(@RequestBody User _user) {
+	public ResponseEntity<User> getUser(@RequestBody User _user) {
 		
 		System.out.println("User name: " + _user.getUserName());
 		
 		this.user = userService.getUser(_user.getUserName(), _user.getPassWord());
-		
 		if(this.user == null) {
-			return "false";
+			return new ResponseEntity<User>(new User(), HttpStatus.OK);
 		}
-		else {
-			return "true";
-		}
+		
+		return new ResponseEntity<User>(this.user, HttpStatus.OK);
 		
 	}
 	

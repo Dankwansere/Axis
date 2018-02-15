@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginService} from './login.service';
-import{FormGroup, FormControl} from '@angular/forms';
+import {FormGroup, FormControl} from '@angular/forms';
+import {User} from '../model/user';
+import {CommonParser} from '../utilities/commonParser';
+import {Authentication} from '../commons/authentication';
 
 
 @Component ({
@@ -9,46 +12,40 @@ import{FormGroup, FormControl} from '@angular/forms';
     styleUrls: ['logReg.component.css']
 })
 
-export class LoginComponent{
+export class LoginComponent implements OnInit {
 
-    isLoading:boolean = false;
-   
+    _user: User;
+    isLoading: boolean = false;
     loginForm = new FormGroup ({
         userName: new FormControl(),
         passWord: new FormControl()
     });
 
-    isUserLoggedIn : boolean;
+    isUserLoggedIn: boolean;
 
-    constructor(private _loginService:LoginService){
-        
-    }
+    constructor(private _loginService: LoginService) {}
 
-    public login(){
+    public login() {
         this.isLoading = true;
         this._loginService.loginPostRequest(this.loginForm.value)
           .subscribe(data => {
-            this.verifyResponse(data)
+            this.verifyResponse(data);
             this.isLoading = false;
         });
     }
 
-    public verifyResponse(data){
-        let loginResponse:string = data._body;
-
-        if(loginResponse == "true") {
-            this._loginService.isLoggedIn = true;
-            this.isUserLoggedIn = this._loginService.isLoggedIn;
-            
+    public verifyResponse(data) {
+        this._user = CommonParser.parseJsonToUserObject(data);
+        if (this._user != null) {
+            this._user.isLoggedIn = true;
+            Authentication.setUserInSession(this._user);
+            this.isUserLoggedIn = this._user.isLoggedIn;
         }
-        else {
-            this.isUserLoggedIn = false;
-        }
-        
-        console.log("from response: " + this.isUserLoggedIn);
     }
 
-    ngOnInit(){
-        this.isUserLoggedIn = this._loginService.isLoggedIn;
+    ngOnInit() {
+        if (Authentication.isUserSessionActive()) {
+            this.isUserLoggedIn = true;
+        }
     }
 }
