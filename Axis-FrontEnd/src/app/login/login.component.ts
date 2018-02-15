@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     }
 
     public verifyResponse(data) {
-        this._user = CommonParser.parseJsonToUserObject(data.json());
+        this._user = CommonParser.parseJsonToUserObject(data);
         if (this._user != null) {
             this._user.isLoggedIn = true;
             Authentication.setUserInSession(this._user);
