@@ -21,4 +21,9 @@ Database : MySQL
       `password` varchar(45) DEFAULT NULL,
      `gender` varchar(7) DEFAULT NULL,
       PRIMARY KEY (`id`)
+      
+
+Date: Feb 15 2018
+- Axis has been upgraded to Angular 5
+- please see package.json file to see requirements 
  
