@@ -5,7 +5,7 @@ export  class Authentication {
 
     static readonly ACTIVE_USER: string = 'activeUser';
     static isDisplayNameUpdated: boolean;
-    static isUserActive: boolean;
+    private static isUserActive: boolean;
 
     static isUserSessionActive(): boolean {
 
