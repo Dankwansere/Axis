@@ -5,15 +5,19 @@
         <h3>Please Log in</h3>
         <form (ngSubmit)="login()" [formGroup]="loginForm">
             <label for="username">Username</label>
-             <input name="username" type="text" formControlName="userName">
+             <input name="username" type="text" formControlName="userName" required>
             <br>
             <label for="password">Password</label>
-            <input name="password" type="password" formControlName="passWord">
-            <br>   
+            <input name="password" type="password" formControlName="passWord" required>
+            <br>  
+            <div name="errorMsg" *ngIf="displayLoginErrorMsg">
+                <p class="ex" > {{userLoginErrorMessage}}</p>
+            </div> 
+            
             <button class="btn btn-primary" type="submit">Login</button>
         </form>
     </div>
-
+    
     <div *ngIf="isUserLoggedIn">
         <h2>You are logged in </h2>
     </div>
