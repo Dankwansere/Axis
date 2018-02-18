@@ -1,10 +1,20 @@
+import {JsonObject, JsonProperty} from 'json2typescript';
+
+@JsonObject
 export class User {
     private _id: number;
+
+    @JsonProperty('userName', String)
     private _userName: string;
+    @JsonProperty('firstName', String)
     private _firstName: string;
+    @JsonProperty('lastName', String)
     private _lastName: string;
+    @JsonProperty('emailAdd', String)
     private _emailAddress: string;
+    @JsonProperty('passWord', String)
     private _passWord: string;
+    @JsonProperty('gender', String)
     private _gender: string;
     private _isLoggedIn: boolean = false;
 
