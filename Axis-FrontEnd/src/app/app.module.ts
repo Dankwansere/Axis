@@ -7,6 +7,7 @@ import {CareerModule} from './career/career.module';
 import {PayrollModule} from './payroll/payroll.module';
 import {ProfileModule} from './profile/profile.module';
 import {LoginModule} from './login/login.module';
+import {TimesheetModule} from './timesheet/timesheet.module'
 
 import { AppComponent } from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -23,7 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule, FormsModule, HttpClientModule, CareerModule,
-    PayrollModule, ProfileModule, LoginModule, routing
+    PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing
   ],
   providers: [LoginService, AuthGuard],
   bootstrap: [AppComponent]
