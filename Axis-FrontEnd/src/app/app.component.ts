@@ -20,8 +20,12 @@ export class AppComponent implements OnInit {
     Authentication.invalidateUserSession();
   }
 
+  public isUserOnline(): boolean {
+    return Authentication.isUserSessionActive();
+  }
+
   public ngOnInit() {
-    Authentication.isUserSessionActive();
+    return this.isUserOnline();
   }
 
 }
