@@ -13,14 +13,14 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 export class RegisterComponent {
 
-
+    private readonly successMessage: string = 'User has been succesfully added to the system';
+    private readonly errorMessage: string = 'Could not add user to system';
     private isUsernameValid: boolean;
     private displayIcon: boolean;
     private isLoading:boolean = false;
-    private isUserCreated:boolean = false;
-
-    private checkMarkIconPath:string = "./app/assets/icons/checkmark.png";
-    private xMarkIconPath:string = "./app/assets/icons/xmark.png";
+    private isUserCreated:string;
+    private checkMarkIconPath:string = require("../../app/assets/icons/checkmark.png");
+    private xMarkIconPath:string = require("../../app/assets/icons/xmark.png");
     imageUrl:string;
     
    @Input() userForm = new FormGroup ({
@@ -30,8 +30,7 @@ export class RegisterComponent {
         emailAdd: new FormControl(),
         passWord: new FormControl(),
         gender: new FormControl(),
-        confirmPassword: new FormControl(),
-        //file: new FormControl()
+        confirmPassword: new FormControl()
     });
 
     constructor(private loginService : LoginService){
@@ -55,48 +54,52 @@ export class RegisterComponent {
     }
 
     private confirmUserCreation(data){
-        let registerResponse = data._body;
-
-        if(registerResponse == "success"){
-            this.isUserCreated = true;
+    
+        if(data.success == true){
+            this.isUserCreated = 'success';
         }
         else {
-            this.isUserCreated = false;
+            this.isUserCreated = 'error';
         }
     }
 
-    private validateUsername(value){
+    //JSON returned {"success", boolean}
+    private validateUsername(data){
         this.displayIcon = true;
-
-        if(value._body == "true"){
+       
+        if(data.success == true){
             this.imageUrl = this.xMarkIconPath;
         }
-        else if(value._body == "false"){
+        else if(data.success == false){
             this.imageUrl = this.checkMarkIconPath;
         }
+        
     }
 
-    private resetUsernameIcon(data) : any{
-        if(data.length == 0){
-            this.displayIcon = false;
-            this.imageUrl = "";
-        }
+    private resetUsernameIcon(){
+        this.displayIcon = false;
+        this.imageUrl = "";
     }
 
     ngOnInit(){
 
-        this.isUserCreated = false;
-        this.userForm.controls["userName"].valueChanges.filter(text => this.resetUsernameIcon(text)).subscribe();
-
+        this.isUserCreated = 'new form';
       
         this.userForm.controls["userName"].valueChanges
-            .filter(text => text.length >= 4)
-            .debounceTime(400)
+            .debounceTime(300)
             .distinctUntilChanged()
+            .filter(text => {
+               if(text.length >= 4) {
+                return true;
+               } else {
+                   this.resetUsernameIcon();
+                   return false;
+               }})
             .subscribe(data => {
                 this.loginService.validateUserNameGetRequest(this.userForm.controls["userName"].value)
-                    .subscribe(value => {
-                        this.validateUsername(value)})});
+                .subscribe(data => {
+                    this.validateUsername(data)})
+                });
     }
     
 }
