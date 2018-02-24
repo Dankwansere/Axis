@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestOptions, Headers} from '@angular/http';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from '../model/user';
 
 
@@ -20,10 +20,10 @@ export class LoginService {
     }
 
     public registerPostRequest(userRegistrationForm){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        const options = new RequestOptions({ headers: headers });
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        //const options = new RequestOptions({ headers: headers });
 
-        return this._http.post('http://localhost:7070/axis/user/create', userRegistrationForm);
+        return this._http.post('http://localhost:7070/axis/user/create', userRegistrationForm, {headers: headers});
     }
 
     public validateUserNameGetRequest(username: string) {
