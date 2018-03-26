@@ -1,8 +1,44 @@
 <p>Timesheet</p> 
 
-<p><strong>Prepared for:</strong> {{FullName}}</p>
+<p><strong>Prepared for:</strong> {{TimesheetUser.firstName}}  {{TimesheetUser.lastName}}</p>
 
 <p><strong>Select work week: </strong>
-    <select> <option value="volvo">{{today}}</option>
-        <option value="saab">Saab</option></select>
-</p> 
+    <select #selectWeek  (change)="weekDisplay(selectWeek.value)"> 
+        <option *ngFor="let time of timesheetWeek; let i = index" value="{{i}}">{{timesheetWeek[i]}}</option>
+    </select>
+</p>
+
+<button name="addNewLineButton" (click)="addNewRow()">New Line</button>
+<button name="removeLineButton" (click)="removeRow()">Delete Line</button>
+<br>
+<br>
+    <table border="3">
+        <tr>
+            <th *ngFor="let col of tableColumnHeading">
+                {{col}}
+            </th>
+            <th *ngFor="let day of weekdays; let c = index">{{day}} {{weekdaysTest[c]}}</th>
+            <th >Total </th>
+        </tr>
+        <tr *ngFor="let row of entryRows" >
+            <td>
+                <div >
+                    <select >
+                        <option *ngFor="let project of projectList; let i = index" [value]="">{{projectList[i]}}</option>
+                    </select>
+                </div>
+            </td>
+            <td></td>
+            <td>{{TimesheetUser.role}}</td>
+            <td><input type="text"  size="5"></td>
+            <td><input type="text" [formControl]="tuesday" size="5"></td>
+            <td><input type="text" size="5"></td>
+            <td><input type="text" size="5"></td>
+            <td><input type="text" size="5"></td>
+            <td><input type="text" size="5"></td>
+            <td><input type="text" size="5"></td>
+            <td></td>
+        </tr>
+    </table>
+    <button class="btn btn-primary" (click)="timesheetPrepare()" type="submit">Submit</button>
+
