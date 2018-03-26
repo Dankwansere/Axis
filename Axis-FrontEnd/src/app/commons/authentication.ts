@@ -1,11 +1,13 @@
 import {User} from '../model/user';
 import {CommonParser} from '../utilities/commonParser';
+import {JsonConvert} from 'json2typescript';
 
 export  class Authentication {
 
     static readonly ACTIVE_USER: string = 'activeUser';
     static isDisplayNameUpdated: boolean;
     private static isUserActive: boolean;
+    private static jsonConvert: JsonConvert = new JsonConvert();
 
     static isUserSessionActive(): boolean {
 
@@ -35,15 +37,15 @@ export  class Authentication {
         Authentication.removeDisplayName();
      }
 
-     // Retrieving the user object that was stored into session storage
+     // Retrieving the user object that was stored into session storage as json format
      // Since JSON.Parse converts a JSON string to a JavaScript prototype object
-     // an utility method CommonParser.parsePrototypeObjectToUserObject is used to parse
+     // an utility method CommonParser.parsePrototypeObjectToUserObject is used to parse json
      // the prototype object to a typscript equivalent
     static retrieveSessionUserObject(): User {
          let user: User;
          if (Authentication.isUserActive) {
             user = CommonParser.parsePrototypeObjectToUserObject(JSON.parse(sessionStorage.getItem(Authentication.ACTIVE_USER)));
-         }
+         } 
 
          return user;
      }
