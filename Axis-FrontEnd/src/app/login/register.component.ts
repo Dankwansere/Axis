@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
-import {LoginService} from './login.service';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {LoginService} from '../services/login.service';
+import {CanComponentDeactivate} from '../deactivate-guard.service';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -11,20 +12,21 @@ import 'rxjs/add/operator/distinctUntilChanged';
     styleUrls: ['logReg.component.css']
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements CanComponentDeactivate {
 
     private readonly successMessage: string = 'User has been succesfully added to the system';
     private readonly errorMessage: string = 'Could not add user to system';
     private isUsernameValid: boolean;
     private displayIcon: boolean;
-    private isLoading:boolean = false;
-    private isUserCreated:string;
+    private isLoading: boolean = false;
+    private isUserCreated: string; //String instead of boolean to prevent a logic error in the component template
+    private isFormSubmitted: boolean
     private checkMarkIconPath:string = require("../../app/assets/icons/checkmark.png");
     private xMarkIconPath:string = require("../../app/assets/icons/xmark.png");
     imageUrl:string;
     
    @Input() userForm = new FormGroup ({
-        userName: new FormControl(),
+        userName: new FormControl(null, Validators.required),
         firstName: new FormControl(),
         lastName: new FormControl(),
         emailAdd: new FormControl(),
@@ -39,26 +41,34 @@ export class RegisterComponent {
 
 
     public register() {
-
         this.isLoading = true;
-        console.log(this.userForm.value);
-       
-        let userFormJson = JSON.stringify(this.userForm.value);
 
-        this.loginService.registerPostRequest(userFormJson)
-        .subscribe(data => {
+        try {
+            let userFormJson = JSON.stringify(this.userForm.value);
+
+            this.loginService.registerPostRequest(userFormJson)
+            .subscribe(data => {
+                this.isLoading = false;
+                console.log(data)
+                this.confirmUserCreation(data);
+            });
+    
+            this.userForm.disabled; 
+        } catch(ex) {
             this.isLoading = false;
-            console.log(data)
-            this.confirmUserCreation(data);
-        });
+            
+        }
+      
     }
 
     private confirmUserCreation(data){
     
         if(data.success == true){
+            this.isFormSubmitted = true;
             this.isUserCreated = 'success';
         }
         else {
+            this.isFormSubmitted = false;
             this.isUserCreated = 'error';
         }
     }
@@ -84,7 +94,6 @@ export class RegisterComponent {
     ngOnInit(){
 
         this.isUserCreated = 'new form';
-      
         this.userForm.controls["userName"].valueChanges
             .debounceTime(300)
             .distinctUntilChanged()
@@ -101,6 +110,14 @@ export class RegisterComponent {
                     this.validateUsername(data)})
                 });
     }
-    
+
+    canDeactivate() {
+        if(this.userForm.dirty && !this.isFormSubmitted) {
+            return confirm("Changes not saved! \nAre you sure you want to leave?");
+        }
+        else {
+            return true;
+        }
+    }   
 }
 
