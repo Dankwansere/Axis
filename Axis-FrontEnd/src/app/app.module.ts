@@ -7,26 +7,30 @@ import {CareerModule} from './career/career.module';
 import {PayrollModule} from './payroll/payroll.module';
 import {ProfileModule} from './profile/profile.module';
 import {LoginModule} from './login/login.module';
-import {TimesheetModule} from './timesheet/timesheet.module'
+import {TimesheetModule} from './timesheet/timesheet.module';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import {HomeComponent} from './home/home.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+
 import {routing} from './app.routing';
-import {LoginService} from './login/login.service';
+import {LoginService} from './services/login.service';
 import {AuthGuard} from './auth-guard.service';
-import { HttpClientModule } from '@angular/common/http';
+import {CanDeactivateGuard} from './deactivate-guard.service'
+
 
 
 
 @NgModule({
   declarations: [
-    AppComponent, HomeComponent
+    AppComponent, HomeComponent, PageNotFoundComponent
   ],
   imports: [
     BrowserModule, FormsModule, HttpClientModule, CareerModule,
     PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing
   ],
-  providers: [LoginService, AuthGuard],
+  providers: [LoginService, AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
