@@ -16,16 +16,20 @@ export class User {
     private _passWord: string;
     @JsonProperty('gender', String)
     private _gender: string;
+    @JsonProperty('role', String)
+    private _role: string;
+
     private _isLoggedIn: boolean = false;
 
     constructor(userName: string = null, firstName: string = null, lastName: string = null,
-         email: string = null, password: string = null, gender: string  = null) {
+         email: string = null, password: string = null, gender: string  = null, role: string = null) {
             this._userName = userName;
             this._firstName = firstName;
             this._lastName = lastName;
             this._emailAddress = email;
             this._passWord = password;
             this._gender = gender;
+            this._role = role;
 
          }
 
@@ -75,6 +79,14 @@ export class User {
 
     get gender(): string {
         return this._gender;
+    }
+
+    set role(role: string) {
+        this._role = role;
+    }
+
+    get role(): string {
+        return this._role;
     }
 
     set isLoggedIn(_loggedIn: boolean) {
