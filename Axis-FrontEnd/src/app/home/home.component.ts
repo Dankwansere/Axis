@@ -8,7 +8,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 
 export class HomeComponent implements OnInit {
-    userName: string;
+    firstName: string;
+    lastName: string;
     displayTitleMessage: string;
 
     constructor() {}
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit {
         if(Authentication.isUserSessionActive) {
             let authName = Authentication.retrieveSessionUserObject()
              if(authName != undefined) {
-                this.userName = authName.userName;
+                this.firstName = authName.firstName;
+                this.lastName = authName.lastName;
             }
         }
     }
