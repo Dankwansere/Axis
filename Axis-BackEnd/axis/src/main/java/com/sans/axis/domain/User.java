@@ -33,6 +33,9 @@ public class User {
 	@Column(name="gender")
 	private String gender;
 	
+	@Column(name="role")
+	private String role;
+	
 	public User() {
 		
 	}
@@ -91,6 +94,13 @@ public class User {
 		this.gender = gender;
 	}
 	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 	
 	@Override
 	public String toString() {
