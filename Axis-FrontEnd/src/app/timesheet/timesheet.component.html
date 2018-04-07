@@ -13,7 +13,7 @@
 <br>
 <br>
 
-<form [formGroup]="timesheetForm" (ngSubmit)="timesheetPrepare()">
+<form [formGroup]="timesheetForm" (ngSubmit)="timesheetPrepareAndSubmit()">
     <table border="3" formArrayName='items'>
         <tr>
             <th  *ngFor="let col of tableColumnHeading">{{col}}</th>
