@@ -2,6 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoginService} from '../services/login.service';
 import {CanComponentDeactivate} from '../deactivate-guard.service';
+import {BaseCommon, Constant} from '../commons/baseCommon'
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -12,7 +13,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
     styleUrls: ['logReg.component.css']
 })
 
-export class RegisterComponent implements CanComponentDeactivate {
+export class RegisterComponent extends BaseCommon implements CanComponentDeactivate {
 
     private readonly successMessage: string = 'User has been succesfully added to the system';
     private readonly errorMessage: string = 'Could not add user to system';
@@ -36,7 +37,7 @@ export class RegisterComponent implements CanComponentDeactivate {
     });
 
     constructor(private loginService : LoginService){
-        
+        super();
     }
 
 
@@ -98,7 +99,7 @@ export class RegisterComponent implements CanComponentDeactivate {
             .debounceTime(300)
             .distinctUntilChanged()
             .filter(text => {
-               if(text.length >= 4) {
+               if(text.length >= Constant.FOUR) {
                 return true;
                } else {
                    this.resetUsernameIcon();
