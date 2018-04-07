@@ -25,7 +25,7 @@ export const routing = RouterModule.forRoot([
     {path: 'logReg', component: LogRegComponent,
         children: [
         {path: 'login', component: LoginComponent},
-        {path: 'signup', redirectTo: '/addNewUser'}]
+        {path: 'signup', component: RegisterComponent}]
     },
     {path: 'not-found', component: PageNotFoundComponent},
     {path: '**', redirectTo: '/not-found'}   
