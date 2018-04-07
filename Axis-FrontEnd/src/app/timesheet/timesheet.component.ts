@@ -12,6 +12,8 @@ import {BaseCommon, Constant} from '../commons/baseCommon'
     templateUrl: 'timesheet.component.html'
 })
 
+
+
 export class Timesheet extends BaseCommon implements OnInit {
     
     selectedWeek: String;
@@ -24,7 +26,8 @@ export class Timesheet extends BaseCommon implements OnInit {
     dateArray: Date [] = new Array(Constant.FIVE); 
     projectList: string[] = new Array();
     tableColumnHeading = ['Project', 'Activity', 'Category'];
-    readonly weekdays = ['Sun ', 'Mon ', 'Tue ', 'Wed ', 'Thu ', 'Fri ', 'Sat '];
+    readonly weekdays = [WeekDay.SUNDAY, WeekDay.MONDAY, WeekDay.TUESDAY,
+         WeekDay.WEDNESDAY , WeekDay.THURSDAY, WeekDay.FRIDAY, WeekDay.SATURDAY];
     today = new Date();
     weekDayNumber: number;
     
@@ -129,4 +132,9 @@ export class Timesheet extends BaseCommon implements OnInit {
     private timesheetPrepareAndSubmit() {
        this.timesheetService.submitTimesheet(this.timesheetForm.get('items').value);
     }
+}
+
+enum WeekDay {
+    SUNDAY = 'Sun', MONDAY = 'Mon', TUESDAY = 'Tue',
+    WEDNESDAY = 'Wed', THURSDAY = 'Thu', FRIDAY = 'Fri', SATURDAY = 'Sat'
 }
