@@ -1,9 +1,9 @@
 <p>Timesheet</p> 
 
-<p><strong>Prepared for:</strong> {{TimesheetUser.firstName}}  {{TimesheetUser.lastName}}</p>
+<p><strong>Prepared for:</strong> {{timesheetUser.firstName | uppercase}}  {{timesheetUser.lastName | uppercase}}</p>
 
 <p><strong>Select work week: </strong>
-    <select #selectWeek  (change)="weekDisplay(selectWeek.value)"> 
+    <select #selectWeek  (change)="weekDisplay(selectWeek.value)" > 
         <option *ngFor="let time of timesheetWeek; let i = index" value="{{i}}">{{timesheetWeek[i]}}</option>
     </select>
 </p>
@@ -12,33 +12,35 @@
 <button name="removeLineButton" (click)="removeRow()">Delete Line</button>
 <br>
 <br>
-    <table border="3">
+
+<form [formGroup]="timesheetForm" (ngSubmit)="timesheetPrepare()">
+    <table border="3" formArrayName='items'>
         <tr>
-            <th *ngFor="let col of tableColumnHeading">
-                {{col}}
-            </th>
-            <th *ngFor="let day of weekdays; let c = index">{{day}} {{weekdaysTest[c]}}</th>
-            <th >Total </th>
+            <th  *ngFor="let col of tableColumnHeading">{{col}}</th>
+            <th  *ngFor="let day of weekdays; let c = index">{{day}} {{weekdayDisplay[c]}}</th>  
+            <th>Total</th>
         </tr>
-        <tr *ngFor="let row of entryRows" >
-            <td>
-                <div >
-                    <select >
-                        <option *ngFor="let project of projectList; let i = index" [value]="">{{projectList[i]}}</option>
-                    </select>
-                </div>
+        <tr [formGroupName]="i"  *ngFor="let item of timesheetForm.get('items').controls; let i = index">
+            <td >
+                <select formControlName="Project">
+                    <option>Select a project</option>
+                    <option *ngFor="let project of projectList; let p = index" [value]="">{{projectList[p]}}</option>
+                </select>
             </td>
-            <td></td>
-            <td>{{TimesheetUser.role}}</td>
-            <td><input type="text"  size="5"></td>
-            <td><input type="text" [formControl]="tuesday" size="5"></td>
-            <td><input type="text" size="5"></td>
-            <td><input type="text" size="5"></td>
-            <td><input type="text" size="5"></td>
-            <td><input type="text" size="5"></td>
-            <td><input type="text" size="5"></td>
-            <td></td>
+            <td><input type="text" size="5" formControlName="Activity"></td>
+            <td>{{timesheetUser.role}} </td>
+            <td><input type="text" size="5" formControlName="DaySun"></td>
+            <td><input type="text" size="5" formControlName="DayMon"></td>
+            <td><input type="text" size="5" formControlName="DayTue"></td>
+            <td><input type="text" size="5" formControlName="DayWed"></td>
+            <td><input type="text" size="5" formControlName="DayThu"></td>
+            <td><input type="text" size="5" formControlName="DayFri"></td>
+            <td><input type="text" size="5" formControlName="DaySat"></td>
+            <td></td> 
         </tr>
     </table>
-    <button class="btn btn-primary" (click)="timesheetPrepare()" type="submit">Submit</button>
 
+    <br>
+    <br>
+    <button class="btn btn-primary"  type="submit">Submit</button>
+</form>
