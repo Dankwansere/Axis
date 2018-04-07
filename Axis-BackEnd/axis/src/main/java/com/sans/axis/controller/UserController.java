@@ -1,5 +1,6 @@
 package com.sans.axis.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sans.axis.domain.GenericControlList;
 import com.sans.axis.domain.User;
 import com.sans.axis.service.IUserService;
 
@@ -71,6 +73,15 @@ public class UserController {
 		} else {
 			return Collections.singletonMap("success", false);
 		}
+		
+	}
+	
+	@RequestMapping(value = "/timesheet", method = RequestMethod.GET)
+	public ResponseEntity<ArrayList<GenericControlList>> getUserProjects() {
+		
+		ArrayList<GenericControlList> projectList = userService.getUserProjects();
+		
+		return new ResponseEntity<ArrayList<GenericControlList>>(projectList, HttpStatus.OK);
 		
 	}
 	
