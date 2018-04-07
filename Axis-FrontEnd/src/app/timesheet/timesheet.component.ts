@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup, FormControl, FormArray} from '@angular/forms';
-import { Authentication } from '../commons/authentication';
-import { User } from '../model/user';
+import {FormGroup, FormControl, FormArray, FormBuilder} from '@angular/forms';
+import {Authentication} from '../commons/authentication';
+import {User} from '../model/user';
 import {TimeSheetService} from '../services/timesheet.service';
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute} from '@angular/router';
+import {BaseCommon, Constant} from '../commons/baseCommon'
 
 
 @Component({
@@ -11,18 +12,16 @@ import {ActivatedRoute} from '@angular/router'
     templateUrl: 'timesheet.component.html'
 })
 
-export class Timesheet implements OnInit {
-   
-    tuesday = new FormControl();
-
+export class Timesheet extends BaseCommon implements OnInit {
     
-    TimesheetUser: User;
-    rowCounter: number = 0;
-    readonly fullWeeek: number = 7;
-    entryRows: number[] = new Array(1);
-    timesheetWeek: string [] = new Array(5);
-    weekdaysTest: string[] = new Array(5);
-    dateArray: Date [] = new Array(5); 
+    selectedWeek: String;
+    items: any[] = [];
+    timesheetForm: FormGroup;
+    timesheetUser: User;
+    readonly fullWeeek: number = Constant.SEVEN;
+    timesheetWeek: string [] = new Array(Constant.FIVE);
+    weekdayDisplay: string[] = new Array(Constant.FIVE);
+    dateArray: Date [] = new Array(Constant.FIVE); 
     projectList: string[] = new Array();
     tableColumnHeading = ['Project', 'Activity', 'Category'];
     readonly weekdays = ['Sun ', 'Mon ', 'Tue ', 'Wed ', 'Thu ', 'Fri ', 'Sat '];
@@ -30,13 +29,22 @@ export class Timesheet implements OnInit {
     weekDayNumber: number;
     
     
-    constructor(private timesheetService: TimeSheetService, private route: ActivatedRoute){}
+    constructor(private timesheetService: TimeSheetService, private route: ActivatedRoute, private fb: FormBuilder){
+        super();
+    }
 
     public ngOnInit() {
-        this.TimesheetUser = Authentication.retrieveSessionUserObject();
-        this.validWeeklyPeriods()
-        this.projectListRetrieval(); //test
-        this.weekDisplay(0);
+
+        this.validWeeklyPeriods();
+
+        this.timesheetForm = this.fb.group({
+            items: this.fb.array([this.createItem()])
+        });
+
+        this.timesheetUser = Authentication.retrieveSessionUserObject();
+        this.validWeeklyPeriods();
+        this.projectListRetrieval(); 
+        this.weekDisplay(Constant.ZERO);
     }
 
     private validWeeklyPeriods() {
@@ -45,7 +53,7 @@ export class Timesheet implements OnInit {
         let tempDate: number;
         let dateOfWeek: Date;
      
-        if(this.weekDayNumber == 7) {
+        if(this.weekDayNumber == Constant.SEVEN) {
             dateOfWeek = new Date();
             tempDate = this.today.getDate();
             dateOfWeek.setDate(tempDate);
@@ -55,10 +63,11 @@ export class Timesheet implements OnInit {
             tempDate = this.today.getDate() - this.weekDayNumber;
             dateOfWeek.setDate(tempDate);
         }
-        this.timesheetWeek[0] = dateOfWeek.toDateString();
-        this.dateArray[0] = dateOfWeek;
+        this.timesheetWeek[Constant.ZERO] = dateOfWeek.toDateString();
+        this.selectedWeek = dateOfWeek.toDateString();
+        this.dateArray[Constant.ZERO] = dateOfWeek;
 
-        for( i = 1; i < 5; i++ ) {
+        for( i = 1; i < Constant.FIVE; i++ ) {
             let tempCurrentDate = new Date();
             tempDate = this.today.getDate() - this.weekDayNumber - (this.fullWeeek * i);
             tempCurrentDate.setDate(tempDate);
@@ -68,37 +77,56 @@ export class Timesheet implements OnInit {
        
     }
 
-    private projectListRetrieval() { //test
+    private projectListRetrieval() { 
        
        let data = this.route.snapshot.data['timesheetResolver'];
        let i: number; 
 
-       for(i = 0; i < 7; i++) {
+       for(i = 0; i < Constant.SEVEN; i++) {
         this.projectList[i] = data[i].genericName;
         }     
     }
 
+    // Parameter dayOfWeekNumber
+    // dayOfWeekNumber will be the index of the selected week
+    // this index will pull the coresponding date from the dateArray
+    // and also display the corresponding days of the week dynamically
     private weekDisplay(dayOfWeekNumber) {
         let month = this.dateArray[dayOfWeekNumber].getMonth() + 1;
         let day = this.dateArray[dayOfWeekNumber].getDate();
+        this.selectedWeek = this.dateArray[dayOfWeekNumber].toDateString();
 
-         for(let i =0; i < 7; i++ ){
-             this.weekdaysTest[i] = month + "-" + day;
+         for(let i = 0; i < Constant.SEVEN; i++ ){
+             this.weekdayDisplay[i] = month + "-" + day;
              day = day + 1;
          }
     }
-    private addNewRow(){
-        const control = new FormControl("test");
-        this.entryRows.push(this.rowCounter++);
-        //(<FormArray>this.timesheetForm.get("project")).push(control);
+
+
+    private createItem(): FormGroup {
+        return this.fb.group({
+            Week: this.selectedWeek,
+            Project: '', Activity: '',
+            Category: '', DaySun: '',
+            DayMon: '', DayTue: '',
+            DayWed: '', DayThu: '',
+            DayFri: '', DaySat: '',
+            Total: ''
+        });
     }
 
-    private removeRow(){
-        this.entryRows.pop();
+
+    private addNewRow(): void{
+        this.items =  this.timesheetForm.get('items') as any;
+        this.items.push(this.createItem());
     }
 
-    private timesheetPrepare(){
-        //console.log("value1: ", this.timesheetForm.get("project").value);
-        console.log("value2: ", this.tuesday.value);
+    private removeRow() {
+        let arrLength = (<FormArray>this.timesheetForm.get('items')).length;
+        (<FormArray>this.timesheetForm.get('items')).removeAt(arrLength - 1);
+    }
+
+    private timesheetPrepareAndSubmit() {
+       this.timesheetService.submitTimesheet(this.timesheetForm.get('items').value);
     }
 }
