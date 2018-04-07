@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LoginService} from './login/login.service';
+import {LoginService} from './services/login.service';
 import { Authentication } from 'app/commons/authentication';
 import { AfterViewInit, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
