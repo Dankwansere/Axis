@@ -50,7 +50,6 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
             this.loginService.registerPostRequest(userFormJson)
             .subscribe(data => {
                 this.isLoading = false;
-                console.log(data)
                 this.confirmUserCreation(data);
             });
     
