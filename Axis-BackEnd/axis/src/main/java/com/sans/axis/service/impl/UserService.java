@@ -1,7 +1,11 @@
 package com.sans.axis.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.sans.axis.domain.GenericControlList;
 import com.sans.axis.domain.User;
 import com.sans.axis.domain.repository.IUserCustomRepository;
 import com.sans.axis.service.IUserService;
@@ -26,6 +30,11 @@ public class UserService implements IUserService  {
 	}
 	
 	@Override
+	public ArrayList<GenericControlList> getUserProjects() {
+		return customUserRepository.getUserProjectList();
+	}
+	
+	@Override
 	public boolean validateUserName(String username) {
 		return customUserRepository.validateUserName(username);
 	}
@@ -33,7 +42,13 @@ public class UserService implements IUserService  {
 	
 	@Override
 	public boolean createUser(User user) {
-		return customUserRepository.createUser(user);
+		if(user.getUserName() == null || user.getFirstName() == null|| user.getEmailAdd() == null) {
+			return false;
+		}
+		else {
+			return customUserRepository.createUser(user);
+		}
+		
 	}
 
 }
