@@ -15,9 +15,8 @@ import {HomeComponent} from './home/home.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
 import {routing} from './app.routing';
-import {LoginService} from './services/login.service';
-import {AuthGuard} from './auth-guard.service';
-import {CanDeactivateGuard} from './deactivate-guard.service'
+import {AuthGuard} from './guards/auth-guard.service';
+import {CanDeactivateGuard} from './guards/deactivate-guard.service'
 
 
 
@@ -30,7 +29,7 @@ import {CanDeactivateGuard} from './deactivate-guard.service'
     BrowserModule, FormsModule, HttpClientModule, CareerModule,
     PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing
   ],
-  providers: [LoginService, AuthGuard, CanDeactivateGuard],
+  providers: [AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
