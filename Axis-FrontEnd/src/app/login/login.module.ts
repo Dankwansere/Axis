@@ -9,7 +9,7 @@ import {LogRegComponent} from './logReg.component';
 import {RegisterComponent} from './register.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { BaseApiService } from '../services/baseApiService';
+import { BaseApiService } from '../services/baseApi.service';
 
 
 
