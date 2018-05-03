@@ -143,9 +143,12 @@ export class Timesheet extends BaseCommon implements OnInit {
 
     private removeRow(): void {
         let arrLength = (<FormArray>this.timesheetForm.get('items')).length;
-        (<FormArray>this.timesheetForm.get('items')).removeAt(arrLength - 1);
+        if(arrLength > 1) {
+            (<FormArray>this.timesheetForm.get('items')).removeAt(arrLength - 1);
 
-        this.totalDisplay.length--;
+            this.totalDisplay.length--;
+        }
+       
     }
 
     private timesheetPrepareAndSubmit(): void {
