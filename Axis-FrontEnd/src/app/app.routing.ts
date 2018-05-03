@@ -8,10 +8,10 @@ import {HomeComponent} from './home/home.component';
 import {LogRegComponent} from './login/logReg.component';
 import {RegisterComponent} from './login/register.component';
 import {Timesheet} from './timesheet/timesheet.component';
-import {CanDeactivateGuard} from './deactivate-guard.service'
+import {CanDeactivateGuard} from './guards/deactivate-guard.service'
 
 
-import {AuthGuard} from './auth-guard.service';
+import {AuthGuard} from './guards/auth-guard.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { TimesheetResolver } from './services/timesheetResolver.service';
 
