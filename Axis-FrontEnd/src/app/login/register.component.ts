@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoginService} from '../services/login.service';
-import {CanComponentDeactivate} from '../deactivate-guard.service';
+import {CanComponentDeactivate} from '../guards/deactivate-guard.service';
 import {BaseCommon, Constant} from '../commons/baseCommon'
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
