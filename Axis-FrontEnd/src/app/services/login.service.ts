@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { BaseApiService } from './baseApiService';
+import { BaseApiService } from './baseApi.service';
 
 
 @Injectable()
