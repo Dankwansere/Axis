@@ -19,6 +19,7 @@ import {AuthGuard} from './guards/auth-guard.service';
 import {CanDeactivateGuard} from './guards/deactivate-guard.service'
 
 import {WebInterceptor} from './interceptors/webinterceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -29,7 +30,7 @@ import {WebInterceptor} from './interceptors/webinterceptor';
   ],
   imports: [
     BrowserModule, FormsModule, HttpClientModule, CareerModule,
-    PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing
+    PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing, BrowserAnimationsModule
   ],
   providers: [AuthGuard, CanDeactivateGuard, { provide: HTTP_INTERCEPTORS, useClass: WebInterceptor, multi: true }],
   bootstrap: [AppComponent]
