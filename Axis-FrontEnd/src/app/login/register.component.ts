@@ -1,6 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {FormGroup, FormControl} from '@angular/forms';
-import {LoginService} from './login.service';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
+import {LoginService} from '../services/login.service';
+import {CanComponentDeactivate} from '../guards/deactivate-guard.service';
+import {BaseCommon, Constant} from '../commons/baseCommon'
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -11,93 +13,111 @@ import 'rxjs/add/operator/distinctUntilChanged';
     styleUrls: ['logReg.component.css']
 })
 
-export class RegisterComponent {
+export class RegisterComponent extends BaseCommon implements CanComponentDeactivate {
 
-
+    private readonly successMessage: string = 'User has been succesfully added to the system';
+    private readonly errorMessage: string = 'Could not add user to system';
     private isUsernameValid: boolean;
     private displayIcon: boolean;
-    private isLoading:boolean = false;
-    private isUserCreated:boolean = false;
-
-    private checkMarkIconPath:string = "./app/assets/icons/checkmark.png";
-    private xMarkIconPath:string = "./app/assets/icons/xmark.png";
+    private isLoading: boolean = false;
+    private isUserCreated: string; //String instead of boolean to prevent a logic error in the component template
+    private isFormSubmitted: boolean
+    private checkMarkIconPath:string = require("../../app/assets/icons/checkmark.png");
+    private xMarkIconPath:string = require("../../app/assets/icons/xmark.png");
     imageUrl:string;
     
    @Input() userForm = new FormGroup ({
-        userName: new FormControl(),
+        userName: new FormControl(null, Validators.required),
         firstName: new FormControl(),
         lastName: new FormControl(),
         emailAdd: new FormControl(),
         passWord: new FormControl(),
         gender: new FormControl(),
-        confirmPassword: new FormControl(),
-        //file: new FormControl()
+        confirmPassword: new FormControl()
     });
 
     constructor(private loginService : LoginService){
-        
+        super();
     }
 
 
     public register() {
-
         this.isLoading = true;
-        console.log(this.userForm.value);
-       
-        let userFormJson = JSON.stringify(this.userForm.value);
 
-        this.loginService.registerPostRequest(userFormJson)
-        .subscribe(data => {
+        try {
+            let userFormJson = JSON.stringify(this.userForm.value);
+
+            this.loginService.registerPostRequest(userFormJson)
+            .subscribe(data => {
+                this.isLoading = false;
+                this.confirmUserCreation(data);
+            });
+    
+            this.userForm.disabled; 
+        } catch(ex) {
             this.isLoading = false;
-            console.log(data)
-            this.confirmUserCreation(data);
-        });
+            
+        }
+      
     }
 
     private confirmUserCreation(data){
-        let registerResponse = data._body;
-
-        if(registerResponse == "success"){
-            this.isUserCreated = true;
+    
+        if(data.success == true){
+            this.isFormSubmitted = true;
+            this.isUserCreated = 'success';
         }
         else {
-            this.isUserCreated = false;
+            this.isFormSubmitted = false;
+            this.isUserCreated = 'error';
         }
     }
 
-    private validateUsername(value){
+    //JSON returned {"success", boolean}
+    private validateUsername(data){
         this.displayIcon = true;
-
-        if(value._body == "true"){
+       
+        if(data.success == true){
             this.imageUrl = this.xMarkIconPath;
         }
-        else if(value._body == "false"){
+        else if(data.success == false){
             this.imageUrl = this.checkMarkIconPath;
         }
+        
     }
 
-    private resetUsernameIcon(data) : any{
-        if(data.length == 0){
-            this.displayIcon = false;
-            this.imageUrl = "";
-        }
+    private resetUsernameIcon(){
+        this.displayIcon = false;
+        this.imageUrl = "";
     }
 
     ngOnInit(){
 
-        this.isUserCreated = false;
-        this.userForm.controls["userName"].valueChanges.filter(text => this.resetUsernameIcon(text)).subscribe();
-
-      
+        this.isUserCreated = 'new form';
         this.userForm.controls["userName"].valueChanges
-            .filter(text => text.length >= 4)
-            .debounceTime(400)
+            .debounceTime(300)
             .distinctUntilChanged()
+            .filter(text => {
+               if(text.length >= Constant.FOUR) {
+                return true;
+               } else {
+                   this.resetUsernameIcon();
+                   return false;
+               }})
             .subscribe(data => {
                 this.loginService.validateUserNameGetRequest(this.userForm.controls["userName"].value)
-                    .subscribe(value => {
-                        this.validateUsername(value)})});
+                .subscribe(data => {
+                    this.validateUsername(data)})
+                });
     }
-    
+
+    canDeactivate() {
+        if(this.userForm.dirty && !this.isFormSubmitted) {
+            return confirm("Changes not saved! \nAre you sure you want to leave?");
+        }
+        else {
+            return true;
+        }
+    }   
 }
 

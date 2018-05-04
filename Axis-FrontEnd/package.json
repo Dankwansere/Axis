@@ -12,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
@@ -24,6 +23,7 @@
     "@angular/router": "^5.0.0",
     "ajv": "^6.0.0",
     "core-js": "^2.4.1",
+    "json2typescript": "^1.0.5",
     "rxjs": "^5.5.0",
     "ts-helpers": "^1.1.1",
     "zone.js": "^0.8.20"
@@ -33,7 +33,7 @@
     "@angular/compiler-cli": "^5.0.0",
     "@types/jasmine": "~2.5.53",
     "@types/node": "~6.0.60",
-    "codelyzer": "~3.2.0",
+    "codelyzer": "~4.1.0",
     "jasmine-core": "^2.6.4",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "^1.7.1",

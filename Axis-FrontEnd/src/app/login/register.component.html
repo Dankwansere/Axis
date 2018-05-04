@@ -1,5 +1,5 @@
 
-<div *ngIf="!isUserCreated">
+<div *ngIf="isUserCreated == 'new form'">
   <form [formGroup]="userForm" (ngSubmit)="register()">
       
           <div class="form-group">
@@ -51,8 +51,12 @@
       </form>
     </div>
 
-      <div *ngIf="isUserCreated">
-        <h2>User has been succesfully added to the system </h2>
+      <div *ngIf="isUserCreated == 'success';">
+        <h2>{{successMessage}} </h2>
     </div>
+    <div *ngIf="isUserCreated == 'error'">
+      <h2>{{errorMessage}} </h2>
+    </div>
+    
 
       <div class="loading" *ngIf="isLoading">Loading&#8230;</div>
