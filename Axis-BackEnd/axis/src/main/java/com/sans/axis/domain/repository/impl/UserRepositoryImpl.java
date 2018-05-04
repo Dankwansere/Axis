@@ -1,5 +1,8 @@
 package com.sans.axis.domain.repository.impl;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.queryParam;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +12,9 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sans.axis.domain.GenericControlList;
 import com.sans.axis.domain.User;
+import com.sans.axis.domain.repository.IGenericControlListRepository;
 import com.sans.axis.domain.repository.IUserCustomRepository;
 import com.sans.axis.domain.repository.IUserRepository;
 
@@ -21,6 +26,9 @@ public class UserRepositoryImpl implements IUserCustomRepository {
 	
 	@Autowired
 	private IUserRepository userRepository; 
+	
+	@Autowired
+	private IGenericControlListRepository genericControlListRepository;
 	
 	@Override
 	public User getUser(String userName, String passWord) {
@@ -40,6 +48,23 @@ public class UserRepositoryImpl implements IUserCustomRepository {
 		}
 	}
 
+	public ArrayList<GenericControlList> getUserProjectList() {
+		
+		
+		ArrayList<GenericControlList> genControlList = null;
+		
+		try {
+			Query query = em.createQuery("SELECT gp from GenericControlList gp WHERE genericType = :genericType");
+			query.setParameter("genericType", "timesheet");
+			genControlList = (ArrayList<GenericControlList>) query.getResultList();
+		} catch (Exception ex) {
+			System.out.println("Query execution error: " + ex.getMessage());
+		}
+		
+		return genControlList;
+	}
+	
+	
 	@Override
 	public boolean validateUserName(String username) {
 		Query query = em.createQuery("SELECT userName from User u WHERE userName = :username");
@@ -65,7 +90,6 @@ public class UserRepositoryImpl implements IUserCustomRepository {
 	public boolean createUser(User user) {
 		try {
 			userRepository.save(user);
-		
 			return true;
 		}
 		catch(Exception ex) {
