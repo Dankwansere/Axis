@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BaseApiService } from '../services/baseApi.service';
 
 
-
 @NgModule ({
     declarations: [LoginComponent, LogRegComponent, RegisterComponent],
     imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, HttpClientModule],
