@@ -3,18 +3,34 @@ import {LoginService} from './services/login.service';
 import { Authentication } from 'app/commons/authentication';
 import { AfterViewInit, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './login/register.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app works!';
-  user: string;
 
-  constructor(private _loginService: LoginService) {
 
-  }
+
+  constructor(private _loginService: LoginService, private dialog: MatDialog) {}
+
+  public openDialog(componentName: String) {
+    let dialogComp;
+
+    if (componentName === 'login') {
+      dialogComp = LoginComponent;
+    } else if (componentName === 'register') {
+      dialogComp = RegisterComponent;
+    }
+    const dialogRef = this.dialog.open(dialogComp);
+
+    dialogRef.afterClosed().subscribe(result => {
+
+    })
+}
 
   public logout() {
     Authentication.invalidateUserSession();
