@@ -17,16 +17,16 @@ import { TimesheetResolver } from './services/timesheetResolver.service';
 
 export const routing = RouterModule.forRoot([
     {path: '', component: HomeComponent},
-    {path: 'payroll', component: PayrollComponent, canActivate:[AuthGuard]},
-    {path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]},
-    {path: 'timesheet', component: Timesheet, canActivate:[AuthGuard], resolve: {timesheetResolver: TimesheetResolver}},
+    {path: 'payroll', component: PayrollComponent, canActivate: [AuthGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+    {path: 'timesheet', component: Timesheet, canActivate: [AuthGuard], resolve: {timesheetResolver: TimesheetResolver}},
     {path: 'career', component: CareerComponent},
-    {path: 'addNewUser', component: RegisterComponent, canDeactivate:[CanDeactivateGuard]},
+    {path: 'addNewUser', component: RegisterComponent, canDeactivate: [CanDeactivateGuard]},
     {path: 'logReg', component: LogRegComponent,
         children: [
         {path: 'login', component: LoginComponent},
         {path: 'signup', component: RegisterComponent}]
     },
     {path: 'not-found', component: PageNotFoundComponent},
-    {path: '**', redirectTo: '/not-found'}   
+    {path: '**', redirectTo: '/not-found'}
 ]);
