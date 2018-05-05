@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {LoginService} from '../services/login.service';
 import {FormGroup, FormControl} from '@angular/forms';
 import {User} from '../model/user';
@@ -6,6 +6,7 @@ import {Authentication} from '../commons/authentication';
 import {JsonConvert} from 'json2typescript';
 import { Router } from '@angular/router';
 
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component ({
     selector: 'login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     isUserLoggedIn: boolean;
     userLoginErrorMessage: string;
 
-    constructor(private _loginService: LoginService, private router: Router) {}
+    constructor(private _loginService: LoginService, private router: Router,
+         @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<LoginComponent>) {}
 
     public login() {
         this.isLoading = true;
@@ -34,16 +36,15 @@ export class LoginComponent implements OnInit {
           .subscribe(data => {
             this.verifyResponse(data);
             this.isLoading = false;
-            if(this.isUserLoggedIn) {
+            if (this.isUserLoggedIn) {
+                this.dialogRef.close();
                 this.router.navigate(['']);
             }
         });
-       
-        
     }
 
     public verifyResponse(data) {
-        
+
         const jsonConvert: JsonConvert = new JsonConvert();
         try {
             this._user = jsonConvert.deserialize(data, User);
@@ -56,8 +57,7 @@ export class LoginComponent implements OnInit {
             Authentication.setUserInSession(this._user);
             this.isUserLoggedIn = this._user.isLoggedIn;
             this.displayLoginErrorMsg = false;
-        }
-        else {
+        } else {
             this.displayLoginErrorMsg = true;
             this.userLoginErrorMessage = 'Invalid Username or Password'
         }
