@@ -20,12 +20,12 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
     private isUsernameValid: boolean;
     private displayIcon: boolean;
     private isLoading: boolean = false;
-    private isUserCreated: string; //String instead of boolean to prevent a logic error in the component template
+    private isUserCreated: string; // String instead of boolean to prevent a logic error in the component template
     private isFormSubmitted: boolean
-    private checkMarkIconPath:string = require("../../app/assets/icons/checkmark.png");
-    private xMarkIconPath:string = require("../../app/assets/icons/xmark.png");
-    imageUrl:string;
-    
+    private checkMarkIconPath: string = require('../../app/assets/icons/checkmark.png');
+    private xMarkIconPath: string = require('../../app/assets/icons/xmark.png');
+    imageUrl: string;
+
    @Input() userForm = new FormGroup ({
         userName: new FormControl(null, Validators.required),
         firstName: new FormControl(),
@@ -36,7 +36,7 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
         confirmPassword: new FormControl()
     });
 
-    constructor(private loginService : LoginService){
+    constructor(private loginService: LoginService) {
         super();
     }
 
@@ -45,79 +45,72 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
         this.isLoading = true;
 
         try {
-            let userFormJson = JSON.stringify(this.userForm.value);
+            const userFormJson = JSON.stringify(this.userForm.value);
 
             this.loginService.registerPostRequest(userFormJson)
             .subscribe(data => {
                 this.isLoading = false;
                 this.confirmUserCreation(data);
             });
-    
             this.userForm.disabled; 
-        } catch(ex) {
+        } catch (ex) {
             this.isLoading = false;
-            
         }
-      
     }
 
-    private confirmUserCreation(data){
-    
-        if(data.success == true){
+    private confirmUserCreation(data) {
+
+        if (data.success === true) {
             this.isFormSubmitted = true;
             this.isUserCreated = 'success';
-        }
-        else {
+        } else {
             this.isFormSubmitted = false;
             this.isUserCreated = 'error';
         }
     }
 
-    //JSON returned {"success", boolean}
-    private validateUsername(data){
+    // JSON returned {"success", boolean}
+    private validateUsername(data) {
         this.displayIcon = true;
-       
-        if(data.success == true){
+
+        if (data.success === true) {
             this.imageUrl = this.xMarkIconPath;
-        }
-        else if(data.success == false){
+        } else if (data.success === false) {
             this.imageUrl = this.checkMarkIconPath;
         }
-        
     }
 
-    private resetUsernameIcon(){
+    private resetUsernameIcon() {
         this.displayIcon = false;
-        this.imageUrl = "";
+        this.imageUrl = '';
     }
 
-    ngOnInit(){
+    ngOnInit() {
 
         this.isUserCreated = 'new form';
-        this.userForm.controls["userName"].valueChanges
+        this.userForm.controls['userName'].valueChanges
             .debounceTime(300)
             .distinctUntilChanged()
             .filter(text => {
-               if(text.length >= Constant.FOUR) {
+               if (text.length >= Constant.FOUR) {
                 return true;
                } else {
                    this.resetUsernameIcon();
                    return false;
                }})
             .subscribe(data => {
-                this.loginService.validateUserNameGetRequest(this.userForm.controls["userName"].value)
+                this.loginService.validateUserNameGetRequest(this.userForm.controls['userName'].value)
                 .subscribe(data => {
                     this.validateUsername(data)})
                 });
     }
 
     canDeactivate() {
-        if(this.userForm.dirty && !this.isFormSubmitted) {
-            return confirm("Changes not saved! \nAre you sure you want to leave?");
-        }
-        else {
+        if (this.userForm.dirty && !this.isFormSubmitted) {
+            return confirm('Changes not saved! \nAre you sure you want to leave?');
+        } else {
             return true;
         }
-    }   
+    }
 }
 
