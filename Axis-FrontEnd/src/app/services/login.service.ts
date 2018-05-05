@@ -11,7 +11,7 @@ export class LoginService {
         return this.apiService.postRequest('user/login', user);
     }
 
-    public registerPostRequest(userRegistrationForm){
+    public registerPostRequest(userRegistrationForm) {
         return this.apiService.postRequest('user/create', userRegistrationForm);
     }
 
