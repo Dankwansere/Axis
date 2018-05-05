@@ -34,13 +34,14 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <div name="noSessionDiv" *ngIf="!isUserOnline(); else sessionActiveDiv">
-                  <a class="dropdown-item" routerLink="logReg">login | register</a>
+                  <a class="dropdown-item" (click)="openDialog('login')">login</a>
+                  <a class="dropdown-item" (click)="openDialog('register')">register</a>
               </div>
 
               <ng-template #sessionActiveDiv>
                   <a class="dropdown-item" routerLink="timesheet">Timesheet</a>
                   <a class="dropdown-item" routerLink="addNewUser">Register new user</a>
-                  <a class="dropdown-item" (click)="logout()" routerLink="logReg">logout</a>
+                  <a class="dropdown-item" (click)="logout()" routerLink="">logout</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
               </ng-template>
