@@ -16,29 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `timesheet`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `timesheet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) DEFAULT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `email_add` varchar(100) DEFAULT NULL,
-  `password` varchar(200) DEFAULT NULL,
-  `gender` varchar(7) DEFAULT NULL,
-  `role` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+CREATE TABLE `timesheet` (
+  `timeweek` date NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `project` varchar(45) NOT NULL,
+  `activity` varchar(45) DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
+  `day_sun` varchar(45) DEFAULT NULL,
+  `day_mon` varchar(45) DEFAULT NULL,
+  `day_tue` varchar(45) DEFAULT NULL,
+  `day_wed` varchar(45) DEFAULT NULL,
+  `day_thu` varchar(45) DEFAULT NULL,
+  `day_fri` varchar(45) DEFAULT NULL,
+  `day_sat` varchar(45) DEFAULT NULL,
+  `total` varchar(45) NOT NULL,
+  `status` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `timesheet`
 --
 
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2018-05-05 18:52:29
