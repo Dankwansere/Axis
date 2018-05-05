@@ -45,7 +45,7 @@ export  class Authentication {
          let user: User;
          if (Authentication.isUserActive) {
             user = CommonParser.parsePrototypeObjectToUserObject(JSON.parse(sessionStorage.getItem(Authentication.ACTIVE_USER)));
-         } 
+         }
 
          return user;
      }
