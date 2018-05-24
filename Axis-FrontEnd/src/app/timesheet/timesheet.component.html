@@ -10,14 +10,15 @@
         <option *ngFor="let time of timesheetWeek; let i = index" value="{{i}}">{{timesheetWeek[i]}}</option>
     </select>
 </p>
-
+<!--
 <button name="addNewLineButton" (click)="addNewRow()">New Line</button>
-<button name="removeLineButton" (click)="removeRow()">Delete Line</button>
+<button name="removeLineButton" (click)="removeRow()">Delete Line</button> -->
+
 <br>
 <br>
 
 <form [formGroup]="timesheetForm" (ngSubmit)="timesheetPrepareAndSubmit()">
-    <table border="3" formArrayName='items'>
+    <table  border="3" formArrayName='items'>
         <tr>
             <th  *ngFor="let col of tableColumnHeading">{{col}}</th>
             <th  *ngFor="let day of weekdays; let c = index">{{day}} {{weekdayDisplay[c]}}</th>  
@@ -42,8 +43,13 @@
             <td>{{totalDisplay[i]}}</td> 
         </tr>
     </table>
-
+    <!--
+    <button mat-mini-fab color="primary" (click)="addNewRow()">+</button>
+    <button mat-mini-fab color="warn" (click)="removeRow()">x</button> -->
+    <button class="btn btn-outline-success my-2 my-sm-0 mr-2" (click)="addNewRow()">Add</button>
+    <button type="button" class="btn btn-outline-danger my-2 my-sm-0" (click)="removeRow()">Remove</button>
     <br>
     <br>
     <button class="btn btn-primary"  type="submit">Submit</button>
+       
 </form>

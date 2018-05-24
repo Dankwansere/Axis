@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class TimesheetResolver implements Resolve<Object> {
 
-    constructor(private timeSheetService: TimeSheetService){}
+    constructor(private timeSheetService: TimeSheetService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.timeSheetService.getUserProjectList();

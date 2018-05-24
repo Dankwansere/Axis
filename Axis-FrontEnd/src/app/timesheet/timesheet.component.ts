@@ -15,17 +15,17 @@ import {BaseCommon, Constant} from '../commons/baseCommon'
 
 
 
-export class Timesheet extends BaseCommon implements OnInit {
-    
+export class TimesheetComponent extends BaseCommon implements OnInit {
+
     selectedWeek = new Date()
-    totalDisplay = new Array(1);;
+    totalDisplay = new Array(1);
     items: any[] = [];
     timesheetForm: FormGroup;
     user: User;
     readonly fullWeeek: number = Constant.SEVEN;
     timesheetWeek: string [] = new Array(Constant.FIVE);
     weekdayDisplay: string[] = new Array(Constant.FIVE);
-    dateArray: Date [] = new Array(Constant.FIVE); 
+    dateArray: Date [] = new Array(Constant.FIVE);
     projectList: string[] = new Array();
     tableColumnHeading = ['Project', 'Activity', 'Category'];
     readonly weekdays = [WeekDay.SUNDAY, WeekDay.MONDAY, WeekDay.TUESDAY,
@@ -33,10 +33,11 @@ export class Timesheet extends BaseCommon implements OnInit {
     today = new Date();
     weekDayNumber: number;
 
-        
-    constructor(private renderer:Renderer2, private timesheetService: TimeSheetService, private route: ActivatedRoute, private fb: FormBuilder){
+
+    constructor(private renderer: Renderer2, private timesheetService: TimeSheetService,
+         private route: ActivatedRoute, private fb: FormBuilder) {
         super();
-        
+
     }
 
     public ngOnInit() {
@@ -47,7 +48,7 @@ export class Timesheet extends BaseCommon implements OnInit {
             items: this.fb.array([this.createItem()])
         });
 
-        this.projectListRetrieval(); 
+        this.projectListRetrieval();
         this.weekDisplay(Constant.ZERO);
 
     }
@@ -57,38 +58,36 @@ export class Timesheet extends BaseCommon implements OnInit {
         this.weekDayNumber = this.today.getDay();
         let tempDate: number;
         let dateOfWeek: Date;
-     
-        if(this.weekDayNumber == Constant.SEVEN) {
+
+        if (this.weekDayNumber === Constant.SEVEN) {
             dateOfWeek = new Date();
             tempDate = this.today.getDate();
             dateOfWeek.setDate(tempDate);
-        }
-        else {
+        } else {
             dateOfWeek = new Date();
             tempDate = this.today.getDate() - this.weekDayNumber;
             dateOfWeek.setDate(tempDate);
         }
         this.timesheetWeek[Constant.ZERO] = dateOfWeek.toDateString();
-        this.selectedWeek = dateOfWeek;//dateOfWeek.toDateString();
+        this.selectedWeek = dateOfWeek;
         this.dateArray[Constant.ZERO] = dateOfWeek;
 
-        for( i = Constant.ONE; i < Constant.FIVE; i++ ) {
-            let tempCurrentDate = new Date();
+        for (i = Constant.ONE; i < Constant.FIVE; i++ ) {
+            const tempCurrentDate = new Date();
             tempDate = this.today.getDate() - this.weekDayNumber - (this.fullWeeek * i);
             tempCurrentDate.setDate(tempDate);
             this.timesheetWeek[i] = tempCurrentDate.toDateString();
             this.dateArray[i] = tempCurrentDate;
         }
-       
     }
 
-    private projectListRetrieval(): void { 
-       let data = this.route.snapshot.data['timesheetResolver'];
-       let i: number; 
+    private projectListRetrieval(): void {
+       const data = this.route.snapshot.data['timesheetResolver'];
+       let i: number;
 
-       for(i = Constant.ZERO; i < Constant.SEVEN; i++) {
+       for (i = Constant.ZERO; i < Constant.SEVEN; i++) {
             this.projectList[i] = data[i].genericName;
-        }     
+        }
     }
 
     // Parameter: dayOfWeekNumber
@@ -96,15 +95,15 @@ export class Timesheet extends BaseCommon implements OnInit {
     // this index will pull the coresponding date from the dateArray
     // and also display the corresponding days of the week dynamically
     private weekDisplay(dayOfWeekNumber): void {
-        let month = this.dateArray[dayOfWeekNumber].getMonth() + Constant.ONE;
+        const month = this.dateArray[dayOfWeekNumber].getMonth() + Constant.ONE;
         let day = this.dateArray[dayOfWeekNumber].getDate();
         let tempDate = this.dateArray[dayOfWeekNumber].toDateString();
-        tempDate = tempDate.substr(0,3) + ', ' + tempDate.substr(4)
-        this.selectedWeek = this.dateArray[dayOfWeekNumber];//tempDate; 
+        tempDate = tempDate.substr(0, 3) + ', ' + tempDate.substr(4)
+        this.selectedWeek = this.dateArray[dayOfWeekNumber];
         this.updateFormGroupControlValue();
 
-         for(let i = Constant.ZERO; i < Constant.SEVEN; i++ ){
-             this.weekdayDisplay[i] = month + "-" + day;
+         for (let i = Constant.ZERO; i < Constant.SEVEN; i++ ) {
+             this.weekdayDisplay[i] = month + '-' + day;
              day = day + Constant.ONE;
          }
 
@@ -112,10 +111,10 @@ export class Timesheet extends BaseCommon implements OnInit {
 
 
     private updateFormGroupControlValue(): void {
-        let arrWeek = (<FormArray>this.timesheetForm.get('items')).controls;
-        for(let arr of arrWeek){
+        const arrWeek = (<FormArray>this.timesheetForm.get('items')).controls;
+        for (const arr of arrWeek) {
             arr.patchValue({week: this.selectedWeek})
-        } 
+        }
     }
 
 
@@ -134,7 +133,7 @@ export class Timesheet extends BaseCommon implements OnInit {
     }
 
 
-    private addNewRow(): void{
+    private addNewRow(): void {
         this.items =  this.timesheetForm.get('items') as any;
         this.items.push(this.createItem());
 
@@ -142,57 +141,52 @@ export class Timesheet extends BaseCommon implements OnInit {
     }
 
     private removeRow(): void {
-        let arrLength = (<FormArray>this.timesheetForm.get('items')).length;
-        if(arrLength > 1) {
+        const arrLength = (<FormArray>this.timesheetForm.get('items')).length;
+        if (arrLength > 1) {
             (<FormArray>this.timesheetForm.get('items')).removeAt(arrLength - 1);
 
             this.totalDisplay.length--;
         }
-       
     }
 
     private timesheetPrepareAndSubmit(): void {
-        this.preSubmit();     
+        this.preSubmit();
 
-        //console.log(this.timesheetForm.get('items').value);
-
-        
        this.timesheetService.submitTimesheet(this.timesheetForm.get('items').value)
-       .subscribe(data => console.log(data)); 
+       .subscribe(data => console.log(data));
     }
 
     private preSubmit(): void {
-        let tempTimesheet = this.timesheetForm.get('items').value;
-        for(let arr of tempTimesheet) {
+        const tempTimesheet = this.timesheetForm.get('items').value;
+        for (const arr of tempTimesheet) {
            arr.total = this.weekdaysParseCalcHours(arr);
-           arr.status = "PENDING";
-            
+           arr.status = 'PENDING';
         }
     }
 
     private calculateTotalHours(...hours: number[]): number {
         let tempTotal = Constant.ZERO;
-        for(let num of hours) {
+        for (const num of hours) {
             tempTotal += num;
         }
        return tempTotal.valueOf();
     }
 
 
-    private displayTotal(formArrayIndex: number){
-        let arr = (<FormArray> this.timesheetForm.get('items')).at(formArrayIndex).value;
-        this.totalDisplay[formArrayIndex] = this.weekdaysParseCalcHours(arr); 
+    private displayTotal(formArrayIndex: number) {
+        const arr = (<FormArray> this.timesheetForm.get('items')).at(formArrayIndex).value;
+        this.totalDisplay[formArrayIndex] = this.weekdaysParseCalcHours(arr);
     }
 
     // This method takes an argument of a formGroup object of 'items' FormArray in the timesheetForm group
     // It will call the calculateTotalHours() and pass 7 arguments each corresponding to the day of the week
     // since day properties of the object are in string, a parse is required.
-    private weekdaysParseCalcHours(arr): number{
+    private weekdaysParseCalcHours(arr): number {
         return this.calculateTotalHours(
-            (arr.daySun.length == 0 ? 0 :parseFloat(arr.daySun)), (arr.dayMon.length == 0 ? 0 :parseFloat(arr.dayMon)),
-            (arr.dayTue.length == 0 ? 0 :parseFloat(arr.dayTue)), (arr.dayWed.length == 0 ? 0 :parseFloat(arr.dayWed)),
-            (arr.dayThu.length == 0 ? 0 :parseFloat(arr.dayThu)), (arr.dayFri.length == 0 ? 0 :parseFloat(arr.dayFri)),
-            (arr.daySat.length == 0 ? 0 :parseFloat(arr.daySat)));
+            (arr.daySun.length === 0 ? 0 : parseFloat(arr.daySun)), (arr.dayMon.length === 0 ? 0 : parseFloat(arr.dayMon)),
+            (arr.dayTue.length === 0 ? 0 : parseFloat(arr.dayTue)), (arr.dayWed.length === 0 ? 0 : parseFloat(arr.dayWed)),
+            (arr.dayThu.length === 0 ? 0 : parseFloat(arr.dayThu)), (arr.dayFri.length === 0 ? 0 : parseFloat(arr.dayFri)),
+            (arr.daySat.length === 0 ? 0 : parseFloat(arr.daySat)));
     }
 }
 
