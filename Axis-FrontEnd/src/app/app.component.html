@@ -40,7 +40,7 @@
 
               <ng-template #sessionActiveDiv>
                   <a class="dropdown-item" routerLink="timesheet">Timesheet</a>
-                  <a class="dropdown-item" routerLink="addNewUser">Register new user</a>
+                  <a class="dropdown-item" (click)="openDialog('register')">Register new user</a>
                   <a class="dropdown-item" (click)="logout()" routerLink="">logout</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
