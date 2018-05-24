@@ -7,14 +7,13 @@ export class WebInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        console.log("request url: ", request.url + " ", request.urlWithParams);
+       // console.log("request url: ", request.url + " ", request.urlWithParams);
 
         const request2 = request.clone({setHeaders: {
             Authorization: 'Bearer'}
         });
-        console.log("tt headers: ", request2.headers); 
-        
+       // console.log("tt headers: ", request2.headers);
+
         return next.handle(request2);
     }
-
 }
