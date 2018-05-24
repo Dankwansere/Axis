@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Inject} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {LoginService} from '../services/login.service';
 import {CanComponentDeactivate} from '../guards/deactivate-guard.service';
@@ -6,6 +6,8 @@ import {BaseCommon, Constant} from '../commons/baseCommon'
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component ({
     selector : 'register',
@@ -36,7 +38,8 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
         confirmPassword: new FormControl()
     });
 
-    constructor(private loginService: LoginService) {
+    constructor(private loginService: LoginService,
+         @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<RegisterComponent>) {
         super();
     }
 
@@ -52,7 +55,7 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
                 this.isLoading = false;
                 this.confirmUserCreation(data);
             });
-            this.userForm.disabled; 
+            this.userForm.disabled;
         } catch (ex) {
             this.isLoading = false;
         }
@@ -63,6 +66,7 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
         if (data.success === true) {
             this.isFormSubmitted = true;
             this.isUserCreated = 'success';
+            this.dialogRef.close();
         } else {
             this.isFormSubmitted = false;
             this.isUserCreated = 'error';
