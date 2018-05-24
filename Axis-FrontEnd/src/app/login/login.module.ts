@@ -11,10 +11,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BaseApiService } from '../services/baseApi.service';
 
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule ({
     declarations: [LoginComponent, LogRegComponent, RegisterComponent],
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule,
+         HttpClientModule, MatInputModule, MatIconModule],
     exports: [],
     providers: [LoginService, BaseApiService]
 })
