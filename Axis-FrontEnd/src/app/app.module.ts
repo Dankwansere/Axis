@@ -7,7 +7,7 @@ import {CareerModule} from './career/career.module';
 import {PayrollModule} from './payroll/payroll.module';
 import {ProfileModule} from './profile/profile.module';
 import {LoginModule} from './login/login.module';
-import {TimesheetModule} from './timesheet/timesheet.module';
+//import {TimesheetModule} from './timesheet/timesheet.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatDialogModule} from '@angular/material/dialog';
 
+// import {TimesheetComponent} from './timesheet/timesheet.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import {MatDialogModule} from '@angular/material/dialog';
   ],
   imports: [
     BrowserModule, FormsModule, HttpClientModule, CareerModule,
-    PayrollModule, ProfileModule, LoginModule, TimesheetModule, routing, BrowserAnimationsModule, MatDialogModule
+    PayrollModule, ProfileModule, LoginModule, routing, BrowserAnimationsModule, MatDialogModule
   ],
   providers: [AuthGuard, CanDeactivateGuard, { provide: HTTP_INTERCEPTORS, useClass: WebInterceptor, multi: true }],
   bootstrap: [AppComponent]
