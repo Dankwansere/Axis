@@ -1,7 +1,7 @@
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 export interface CanComponentDeactivate {
-    canDeactivate: () => boolean;
+   canDeactivate: () => any;
 }
 
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
