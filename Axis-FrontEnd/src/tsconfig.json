@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": "",
+    "paths": {
+      "@login/*": ["app/login/*"],
+      "@timesheet/*": ["app/timesheet/*"],
+      "@services/*": ["app/services/*"]
+    },
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
