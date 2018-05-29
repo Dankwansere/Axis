@@ -1,0 +1,62 @@
+
+<div *ngIf="isUserCreated == 'new form'">
+  <form [formGroup]="userForm" (ngSubmit)="register()">
+      
+          <div class="form-group">
+            <label for="username">User name</label> <img src="{{imageUrl}}" *ngIf="displayIcon"  />
+            <input type="text" class="form-control" formControlName="userName" id="username" aria-describedby="usernameHelp" placeholder="Enter username">
+            
+          </div>
+      
+          <div class="form-group">
+                  <label for="firstname">First Name</label>
+                  <input type="text" class="form-control" formControlName="firstName" id="firstname" aria-describedby="firstnameHelp" placeholder="Enter first name">
+          </div>
+      
+          <div class="form-group">
+                  <label for="lastname">Last name</label>
+                  <input type="text" class="form-control" formControlName="lastName" id="lastname" aria-describedby="lastnameHelp" placeholder="Enter last name">
+          </div>
+      
+      
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" formControlName="emailAdd" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+      
+      
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" formControlName="passWord" id="password" placeholder="Password">
+          </div>
+      
+      
+          <div class="form-group">
+            <label for="exampleSelect1">Select Gender</label>
+            <select class="form-control" formControlName="gender" id="exampleSelect1">
+              <option>Female</option>
+              <option>Male</option>
+            </select>
+          </div>
+          
+          <!--
+          <div class="form-group">
+            <label for="exampleInputFile">File input</label>
+            <input type="file" class="form-control-file" formControlName="file" id="exampleInputFile" aria-describedby="fileHelp">
+            <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+          </div>
+      -->
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+     <!-- <div *ngIf="isUserCreated == 'success';">
+        <h2>{{successMessage}} </h2>
+    </div> -->
+    <div *ngIf="isUserCreated == 'error'">
+      <h2>{{errorMessage}} </h2>
+    </div>
+    
+
+      <div class="loading" *ngIf="isLoading">Loading&#8230;</div>
