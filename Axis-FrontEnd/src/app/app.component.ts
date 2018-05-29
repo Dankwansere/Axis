@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import {LoginService} from './services/login.service';
+import {LoginService} from '@services/login.service';
 import { Authentication } from 'app/commons/authentication';
 import { AfterViewInit, OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {LoginComponent} from './login/login.component';
-import {RegisterComponent} from './login/register.component';
+import {LoginComponent} from '@login/components/login.component';
+import {RegisterComponent} from '@login/components/register.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

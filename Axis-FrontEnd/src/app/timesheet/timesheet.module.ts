@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
-import {TimesheetComponent} from './timesheet.component';
-import {TimeSheetService} from '../services/timesheet.service';
-import {TimesheetResolver} from '../services/timesheetResolver.service'
+import {TimesheetComponent} from '@timesheet/components/timesheet.component';
+import {TimeSheetService} from '@services/timesheet.service';
+import {TimesheetResolver} from '@services/timesheetResolver.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {TimesheetRouting} from './timesheet.routing'
 
