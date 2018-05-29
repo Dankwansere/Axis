@@ -29,6 +29,7 @@
     "json2typescript": "^1.0.5",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
+    "sweetalert2": "^7.20.10",
     "ts-helpers": "^1.1.1",
     "webpack": "^4.7.0",
     "zone.js": "^0.8.20"
