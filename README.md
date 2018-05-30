@@ -11,19 +11,26 @@ Back End: Spring Boot/MVC
 
 
 Database : MySQL
-  - execute axis_user.sql file to create user table
-  - User table requires the following columns:
-     `id` bigint(20) NOT NULL AUTO_INCREMENT,
-     `user_name` varchar(45) DEFAULT NULL,
-     `first_name` varchar(45) DEFAULT NULL,
-      `last_name` varchar(45) DEFAULT NULL,
-      `email_add` varchar(100) DEFAULT NULL,
-      `password` varchar(45) DEFAULT NULL,
-     `gender` varchar(7) DEFAULT NULL,
-      PRIMARY KEY (`id`)
-      
+	Execute the following files to have the required database tables ready
+		- axis_user.sql file to create user table
+		- axis_genericprojects.sql to create genericprojects table
+		- axis_timesheet.sql to create timesheet table
+
+  
+Date: May 04 2018
+- Axis has been upgraded to Angular 6
+- please see package.json file for requirements
+
+Recommendations: 
+		NPM version: 5.6.0
+		node version: 10.0.0
+		typescript version: 2.7.2
+
+--------------------------------
 
 Date: Feb 15 2018
 - Axis has been upgraded to Angular 5
 - please see package.json file to see requirements 
+ 
+
  

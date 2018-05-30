@@ -1,7 +1,8 @@
 package com.sans.axis.controller;
 
-import java.util.concurrent.TimeUnit;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sans.axis.domain.GenericControlList;
 import com.sans.axis.domain.User;
 import com.sans.axis.service.IUserService;
-import com.sans.axis.service.impl.UserService;
 
 @RestController
 @RequestMapping(value = "/user/")
@@ -43,32 +44,44 @@ public class UserController {
 	
 	@RequestMapping(value = "/validate/{username}", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public String validateUserName(@PathVariable(value = "username") String username) {
+	public Map<String, Boolean> validateUserName(@PathVariable(value = "username") String username) {
 		
 		System.out.println("Received username: " + username);
 		
 		boolean isUserExist = userService.validateUserName(username);
 		
 		if(isUserExist) {
-			return "true";
+			return Collections.singletonMap("success", true);
 		}
 		else {
-			return "false";
+			return Collections.singletonMap("success", false);
 		}
 		
 	}
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public String create(@RequestBody User user) {	
-		boolean isUserSaved = userService.createUser(user);
+	public Map<String, Boolean> create(@RequestBody User user) {	
 		
-		if(isUserSaved) {
-			return "success";
+		if (!(this.validateUserName(user.getUserName()).get("success"))) {
+			boolean isUserSaved = userService.createUser(user);
+			if (isUserSaved) {
+				return Collections.singletonMap("success", true);
+			} else {
+				return Collections.singletonMap("success", false);
+			} 
+		} else {
+			return Collections.singletonMap("success", false);
 		}
-		else {
-			return "failed";
-		}
+		
+	}
+	
+	@RequestMapping(value = "/timesheet", method = RequestMethod.GET)
+	public ResponseEntity<ArrayList<GenericControlList>> getUserProjects() {
+		
+		ArrayList<GenericControlList> projectList = userService.getUserProjects();
+		
+		return new ResponseEntity<ArrayList<GenericControlList>>(projectList, HttpStatus.OK);
 		
 	}
 	
