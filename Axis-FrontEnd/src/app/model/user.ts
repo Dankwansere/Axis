@@ -18,11 +18,14 @@ export class User {
     private _gender: string;
     @JsonProperty('role', String)
     private _role: string;
+    @JsonProperty('accessLevel', Number)
+    private _access_level: number;
 
     private _isLoggedIn: boolean = false;
 
     constructor(userName: string = null, firstName: string = null, lastName: string = null,
-         email: string = null, password: string = null, gender: string  = null, role: string = null) {
+         email: string = null, password: string = null,
+          gender: string  = null, role: string = null, accessLevel: number = 1) {
             this._userName = userName;
             this._firstName = firstName;
             this._lastName = lastName;
@@ -30,11 +33,13 @@ export class User {
             this._passWord = password;
             this._gender = gender;
             this._role = role;
+            this._access_level = accessLevel;
 
          }
 
     set userName(userName: string) {
         this._userName = userName;
+
     }
 
     get userName(): string {
@@ -87,6 +92,14 @@ export class User {
 
     get role(): string {
         return this._role;
+    }
+
+    set accessLevel(accessRole: number) {
+        this._access_level = accessRole;
+    }
+
+    get accessLevel(): number {
+        return this._access_level;
     }
 
     set isLoggedIn(_loggedIn: boolean) {
