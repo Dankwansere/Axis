@@ -40,6 +40,14 @@ export class AppComponent implements OnInit {
     return Authentication.isUserSessionActive();
   }
 
+  public isUserAdmin(): boolean {
+    if (Authentication.userAccessLevel() === 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public ngOnInit() {
     return this.isUserOnline();
   }
