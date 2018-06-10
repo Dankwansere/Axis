@@ -15,9 +15,9 @@ export class HomeComponent implements OnInit {
     constructor() {}
 
     public ngOnInit() {
-        if(Authentication.isUserSessionActive) {
-            let authName = Authentication.retrieveSessionUserObject()
-             if(authName != undefined) {
+        if (Authentication.isUserSessionActive) {
+            const authName = Authentication.retrieveSessionUserObject()
+             if (authName !== undefined) {
                 this.firstName = authName.firstName;
                 this.lastName = authName.lastName;
             }
