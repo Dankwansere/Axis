@@ -5,7 +5,7 @@ export class CommonParser {
     // Parsing a JSON String object to a typescript object
     public static parseJsonToUserObject(userJson): User {
         const user = new User(userJson.userName, userJson.firstName, userJson.lastName,
-         userJson.emailAdd, userJson.passWord, userJson.gender);
+         userJson.emailAdd, userJson.passWord, userJson.gender, userJson.role, userJson.accessLevel);
 
          if (user.userName === null) {
              return null;
@@ -15,9 +15,9 @@ export class CommonParser {
     }
 
     // Parse a javascript prototype object to a typescript object
-    public static parsePrototypeObjectToUserObject(userPrototype){
+    public static parsePrototypeObjectToUserObject(userPrototype) {
         const user = new User(userPrototype._userName, userPrototype._firstName, userPrototype._lastName,
-            userPrototype._emailAddress, userPrototype._passWord, userPrototype._gender, userPrototype._role);
+            userPrototype._emailAddress, userPrototype._passWord, userPrototype._gender, userPrototype._role, userPrototype._access_level);
             if (user.userName === null) {
                 return null;
             }
