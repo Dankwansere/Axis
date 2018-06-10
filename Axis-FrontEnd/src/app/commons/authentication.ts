@@ -21,6 +21,11 @@ export  class Authentication {
 
     }
 
+    static userAccessLevel(): number {
+        const user = Authentication.retrieveSessionUserObject();
+        return user.accessLevel;
+    }
+
     // If user successfully logs in, set user object in session storage
     // and update display name with user login ID
     static setUserInSession(userObj: User) {
