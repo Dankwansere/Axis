@@ -1,0 +1,56 @@
+<!-- <p [ngStyle]="{'color': 'red'}"><b>Timesheet</b></p> 
+<p [ngClass]="'highlight'">test section</p> -->
+
+
+
+<p ><strong [ngClass]="'highlight'">Prepared for:</strong> {{user.firstName | uppercase}}  {{user.lastName | uppercase}}</p>
+
+<p><strong>Select work week: </strong>
+    <select #selectWeek  (change)="weekDisplay(selectWeek.value)" > 
+        <option *ngFor="let time of timesheetWeek; let i = index" value="{{i}}">{{timesheetWeek[i]}}</option>
+    </select>
+</p>
+<!--
+<button name="addNewLineButton" (click)="addNewRow()">New Line</button>
+<button name="removeLineButton" (click)="removeRow()">Delete Line</button> -->
+
+<br>
+<br>
+
+<form [formGroup]="timesheetForm" (ngSubmit)="timesheetPrepareAndSubmit()">
+    <table  border="3" formArrayName='items'>
+        <tr>
+            <th  *ngFor="let col of tableColumnHeading">{{col}}</th>
+            <th  *ngFor="let day of weekdays; let c = index">{{day}} {{weekdayDisplay[c]}}</th>  
+            <th>Total</th>
+        </tr>
+        <tr [formGroupName]="i"  *ngFor="let item of timesheetForm.get('items').controls; let i = index">
+            <td >
+                <select formControlName="project">
+                    <option>Select a project</option>
+                    <option *ngFor="let project of projectList; let p = index" [value]="">{{projectList[p]}}</option>
+                </select>
+            </td>
+            <td><input type="text" size="5" formControlName="activity"></td>
+            <td>{{user.role}} </td>
+            <td><input type="text" size="5" formControlName="daySun" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="dayMon" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="dayTue" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="dayWed" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="dayThu" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="dayFri" (change)="displayTotal(i)"></td>
+            <td><input type="text" size="5" formControlName="daySat" (change)="displayTotal(i)"></td>
+            <td>{{totalDisplay[i]}}</td> 
+        </tr>
+    </table>
+    <!--
+    <button mat-mini-fab color="primary" (click)="addNewRow()">+</button>
+    <button mat-mini-fab color="warn" (click)="removeRow()">x</button> -->
+    <button type="button" class="btn btn-outline-success my-2 my-sm-0 mr-2" (click)="addNewRow()">Add</button>
+    <button type="button" class="btn btn-outline-danger my-2 my-sm-0" (click)="removeRow()">Remove</button>
+    <br>
+    <br>
+    <button class="btn btn-primary"  type="submit">Submit</button>
+</form>
+
+<div class="loading" *ngIf="isLoading">Loading&#8230;</div>
