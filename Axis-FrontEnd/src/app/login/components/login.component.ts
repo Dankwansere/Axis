@@ -18,7 +18,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 
 export class LoginComponent implements OnInit {
 
-    _user: User;
+    user: User;
     isLoading: boolean = false;
     loginForm = new FormGroup ({
         userName: new FormControl(),
@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
 
     constructor(private _loginService: LoginService, private router: Router,
          @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<LoginComponent>,
-         iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-            iconRegistry.addSvgIcon(
-                'thumbs-up',
-                sanitizer.bypassSecurityTrustResourceUrl('../../app/assets/icons/passwd.svg'));
+          sanitizer: DomSanitizer) {
+            // iconRegistry.addSvgIcon(
+            //     'thumbs-up',
+            //     sanitizer.bypassSecurityTrustResourceUrl('../../app/assets/icons/passwd.svg'));
          }
 
     public login() {
@@ -55,16 +55,25 @@ export class LoginComponent implements OnInit {
 
     public verifyResponse(data) {
         const jsonConvert: JsonConvert = new JsonConvert();
+
+        const authToken = data.headers.get('Authorization');
+
+
         try {
-            this._user = jsonConvert.deserialize(data, User);
+            this.user = jsonConvert.deserialize(data.body, User);
         } catch (err) {
             console.log('Error parsing json to user: ' + err);
         }
 
-        if (this._user != null) {
-            this._user.isLoggedIn = true;
-            Authentication.setUserInSession(this._user);
-            this.isUserLoggedIn = this._user.isLoggedIn;
+        if (this.user != null) {
+            this.user.isLoggedIn = true;
+
+            if (authToken !== null || authToken !== undefined) {
+                this.user.token = authToken;
+            }
+
+            Authentication.setUserInSession(this.user);
+            this.isUserLoggedIn = this.user.isLoggedIn;
             this.displayLoginErrorMsg = false;
         } else {
             this.displayLoginErrorMsg = true;
