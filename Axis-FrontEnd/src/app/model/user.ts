@@ -20,9 +20,11 @@ export class User {
     private _role: string;
 
     private _isLoggedIn: boolean = false;
+    private _token: string;
 
     constructor(userName: string = null, firstName: string = null, lastName: string = null,
-         email: string = null, password: string = null, gender: string  = null, role: string = null) {
+         email: string = null, password: string = null,
+          gender: string  = null, role: string = null, token: string = null) {
             this._userName = userName;
             this._firstName = firstName;
             this._lastName = lastName;
@@ -30,7 +32,7 @@ export class User {
             this._passWord = password;
             this._gender = gender;
             this._role = role;
-
+            this._token = token;
          }
 
     set userName(userName: string) {
@@ -95,6 +97,14 @@ export class User {
 
     get isLoggedIn(): boolean {
         return this._isLoggedIn;
+    }
+
+    set token(token: string) {
+        this._token = token;
+    }
+
+    get token(): string {
+        return this._token;
     }
 }
 
