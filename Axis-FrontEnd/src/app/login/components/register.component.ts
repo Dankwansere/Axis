@@ -96,6 +96,7 @@ export class RegisterComponent extends BaseCommon implements CanComponentDeactiv
             .debounceTime(300)
             .distinctUntilChanged()
             .filter(text => {
+                console.log(text);
                if (text.length >= Constant.FOUR) {
                 return true;
                } else {
