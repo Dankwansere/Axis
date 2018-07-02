@@ -9,8 +9,11 @@ export class BaseApiService {
 
     private baseDomain: string = 'http://localhost:7070/axis/';
     private errorMessage: string;
+    private headers: HttpHeaders;
 
-    constructor(private _http: HttpClient) {}
+    constructor(private _http: HttpClient) {
+        this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    }
 
 
     public getRequest(path: string, param?: any) {
@@ -25,11 +28,12 @@ export class BaseApiService {
         }
     }
 
-    public postRequest(path: string, param: any) {
+    public postRequest(path: string, param: any, options?: any) {
+ 
+        options.headers = this.headers;
 
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         try {
-           return this._http.post(this.baseDomain + path, param, {headers: headers}).catch((error: Response) => {
+           return this._http.post(this.baseDomain + path, param, options ).catch((error: Response) => {
                return Observable.throw('something went wrong - unable to connect to server');
            });
         } catch (ex) {
