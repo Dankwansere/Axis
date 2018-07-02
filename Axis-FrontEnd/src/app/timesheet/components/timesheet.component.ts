@@ -7,7 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {BaseCommon, Constant} from '../../commons/baseCommon';
 import {CanComponentDeactivate} from '../../guards/deactivate-guard.service';
 import {BaseComponent} from '../../shared/components/base-component';
-import swal from 'sweetalert2';
+
 
 
 @Component({
