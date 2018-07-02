@@ -15,9 +15,10 @@ export class CommonParser {
     }
 
     // Parse a javascript prototype object to a typescript object
-    public static parsePrototypeObjectToUserObject(userPrototype){
+    public static parsePrototypeObjectToUserObject(userPrototype) {
         const user = new User(userPrototype._userName, userPrototype._firstName, userPrototype._lastName,
-            userPrototype._emailAddress, userPrototype._passWord, userPrototype._gender, userPrototype._role);
+            userPrototype._emailAddress, userPrototype._passWord,
+             userPrototype._gender, userPrototype._role, userPrototype._token);
             if (user.userName === null) {
                 return null;
             }
