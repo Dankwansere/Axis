@@ -1,0 +1,42 @@
+    
+   
+    /* Small devices (landscape phones) */
+   /* @media (min-width:576px) {
+    body{
+        background:red;
+    }
+}
+
+    /* Medium devices (tablets) */
+  /*  @media (min-width:768px) {
+        body{
+            background:blue;
+        }
+
+    } 
+    @media (min-width:576px){
+        :host {
+            background-color: green;
+            size: 200px 200px;
+            display: block;
+        }
+    }
+
+    @media (min-width:768px) {
+        :host {
+            background-color: blue;
+        }
+    }*/
+    
+
+.highlight {
+    color:Blue;
+    font-style: '';
+    font-weight: bold;
+    font-size: 120%;
+    font-family: Tahoma, Verdana, Arial;
+}
+
+p b {
+    color: green;
+}
