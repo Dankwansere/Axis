@@ -8,7 +8,11 @@ export class LoginService {
     constructor(private apiService: BaseApiService) {}
 
     public loginPostRequest(user) {
-        return this.apiService.postRequest('user/login', user);
+
+        const options: any = {};
+        options.observe = 'response';
+
+        return this.apiService.postRequest('user/login', user, options);
     }
 
     public registerPostRequest(userRegistrationForm) {
