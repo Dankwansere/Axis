@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import {MAT_DIALOG_DATA, MatDialogRef, MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 
+import * as jwtDecode from 'jwt-decode';
+import { finalize } from 'rxjs/operators';
+
 
 @Component ({
     selector: 'login',
@@ -58,6 +61,14 @@ export class LoginComponent implements OnInit {
 
         const authToken = data.headers.get('Authorization');
 
+        // Jwt decode begin
+
+        const decodedToken = jwtDecode(authToken);
+
+        console.log('Decoded token: ', decodedToken );
+
+        // Jwt decode end
+
 
         try {
             this.user = jsonConvert.deserialize(data.body, User);
@@ -66,10 +77,9 @@ export class LoginComponent implements OnInit {
         }
 
         if (this.user != null) {
-            this.user.isLoggedIn = true;
-
             if (authToken !== null || authToken !== undefined) {
                 this.user.token = authToken;
+                this.user.isLoggedIn = true;
             }
 
             Authentication.setUserInSession(this.user);

@@ -27,6 +27,7 @@
     "ajv": "^6.0.0",
     "core-js": "^2.4.1",
     "json2typescript": "^1.0.5",
+    "jwt-decode": "^2.2.0",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
     "sweetalert2": "^7.20.10",
